@@ -97,15 +97,9 @@ export default {
 </script>
 
 <style>
-svg {
-  display: inline-block;
-  vertical-align: baseline;
-  margin-bottom: -2px;
-  transition: fill 0.3s, stroke 0.3s;
-}
-
-.icon-react {
-  margin-top: 40px;
-  fill: #42b983;
-}
+  svg {
+    display: inline-block;
+    vertical-align: baseline;
+    transition: fill 0.3s, stroke 0.3s;
+  }
 </style>

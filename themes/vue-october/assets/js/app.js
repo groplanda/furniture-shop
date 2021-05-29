@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router/routes.js';
 import store from './store/index.js';
 import Icon from '@vue/components/app/icon.vue';
+import 'swiper/swiper-bundle.css';
 
 Vue.component('icon', Icon);
 

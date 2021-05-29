@@ -1,62 +1,45 @@
 <template lang="pug">
-  .app
-    header.header
-      ._header-nav
-        router-link(to="/")._header-link Home
-        router-link(to="/about")._header-link About
-    router-view
-
+  .wrapper(:class="{ 'wrapper--active': activeWrapper }")
+    Header
+    FixedPanel(@togglePanel="togglePanel")
+    .wrapper__container
+      router-view
+    Footer
 </template>
 
 <script>
-
+import Header from "@vue/components/Header/Header";
+import FixedPanel from "@vue/components/FixedPanel/FixedPanel";
+import Footer from "@vue/components/Footer/Footer";
 
 export default {
   name: "App",
+  components: {
+    Header,
+    FixedPanel,
+    Footer
+  },
+  data() {
+    return {
+      activeWrapper: false
+    }
+  },
+  watch: {
+    activeWrapper() {
+      this.activeWrapper
+      ? document.body.classList.add("open-modal")
+      : document.body.classList.remove("open-modal");
+    }
+  },
+  methods: {
+    togglePanel(event) {
+      this.activeWrapper = event;
+    }
+  },
+  created() {
+    if (localStorage.getItem('cart')) {
+      this.$store.dispatch("fillCart" , JSON.parse(localStorage.getItem('cart')));
+    }
+  }
 }
 </script>
-<style lang="scss">
-body {
-  background: #f4f4f4;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.header {
-  width: 100%;
-  height: 70px;
-  background: #42b983;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-
-  &__header-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__header-link {
-    font-size: 16px;
-    font-weight: 600;
-    color: #d6ffec;
-    text-align: center;
-    margin: 0 20px;
-    text-decoration: none;
-  }
-}
-.container {
-  text-align: center;
-}
-h1 {
-  font-size: 50px;
-  font-weight: 800;
-  margin: 0 0 40px 0;
-}
-</style>
