@@ -34,9 +34,9 @@
             icon(name="plus" component="product")._amount-ico
         ._price
           ._current-price
-            strong._price-val {{ product.sale_price !== 0 ? (product.sale_price).toLocaleString('ru') : (product.price).toLocaleString('ru') }}
+            strong._price-val {{ product.sale_price != 0 ? (product.sale_price).toLocaleString('ru') : (product.price).toLocaleString('ru') }}
             span._price-label руб.
-          ._old-price(v-if="product.sale_price !== 0")
+          ._old-price(v-if="product.sale_price != 0")
             strong._price-val {{ (product.price).toLocaleString('ru') }}
             span._price-label руб.
 
