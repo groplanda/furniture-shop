@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@vue/page/Home'
 import About from '@vue/page/About'
-
+import Cart from '@vue/page/Cart'
 
 Vue.use(Router);
 let router = new Router({
@@ -18,6 +18,11 @@ let router = new Router({
           path: '/about',
           name: 'about',
           component: About
+        },
+        {
+          path: '/cart',
+          name: 'cart',
+          component: Cart
         }
     ]
 });

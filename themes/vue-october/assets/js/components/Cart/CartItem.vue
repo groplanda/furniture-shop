@@ -1,0 +1,233 @@
+<template lang="pug">
+.cart-item
+  ._product
+    ._product-img
+      router-link(to="#!")._product-link
+      img(:src="'/storage/app/media/' + product.image", :alt="product.title")._product-thumb
+    ._product-group
+      router-link(to="#!")._product-title {{ product.title }}
+  ._right
+    ._col
+      ._price
+        ._price-val {{ (product.price).toLocaleString('ru') }}
+        ._price-currency руб.
+
+    ._col
+      .product-item__amount
+        button(
+          type="button"
+          @click="updateAmount"
+          data-js-action="minus"
+          :disabled="count === 1"
+          :class="{ 'product-item__amount-btn--disabled': count === 1 }").product-item__amount-btn
+          icon(name="minus" component="product").product-item__amount-ico
+        input(type="number" v-model="count" readonly).product-item__amount-val
+        button(
+          @click="updateAmount"
+          data-js-action="plus"
+          type="button").product-item__amount-btn
+          icon(name="plus" component="product").product-item__amount-ico
+    ._col
+      ._price
+        ._price-val {{ (product.price * count).toLocaleString('ru') }}
+        ._price-currency руб.
+  button(type="button" @click="deleteProduct")._remove
+    icon(name="trash" component="cart")._remove-ico
+
+</template>
+<script>
+export default {
+  name: "CartItem",
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      count: this.product.amount
+    }
+  },
+  methods: {
+    updateAmount(e) {
+      if (e.target.dataset.jsAction === "plus" && this.product.amount < 100) {
+        this.count = this.count + 1;
+      } else if (e.target.dataset.jsAction === "minus" && this.product.amount > 1) {
+        this.count = this.count - 1;
+      }
+      this.updateCart();
+    },
+    updateCart() {
+      if( this.count > 0 && this.product?.id) {
+        this.$store.dispatch("updateCart", { id: this.product.id, amount: this.count })
+      }
+    },
+    deleteProduct() {
+      this.$store.dispatch("deleteProduct", this.product.id);
+      this.$emit("deleteProduct", this.product.id);
+    }
+  }
+}
+</script>
+<style lang="scss">
+@import '@/scss/vars.scss';
+.cart-item {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 30px 90px 30px 30px;
+  background: #FFF;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  position: relative;
+
+  $root: &;
+
+  @media(max-width: 1740px) {
+    padding: 0px 75px 20px 20px;
+  }
+  @media(max-width: 1440px) {
+    padding: 0px 60px 15px 15px;
+  }
+
+  &__product {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 445px;
+    padding-right: 20px;
+
+    @media(max-width: 1740px) {
+      max-width: 350px;
+    }
+    @media(max-width: 1440px) {
+      max-width: 300px;
+    }
+  }
+
+  &__product-img {
+    width: 60px;
+    margin-right: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
+
+    @media(max-width: 1440px) {
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+  }
+
+  &__product-thumb {
+    top: 0;
+    left: 0;
+    position: absolute;
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  &__product-link {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__product-group {
+    width: 100%;
+    max-width: calc(100% - 80px);
+    @media(max-width: 1440px) {
+      max-width: calc(100% - 60px);
+    }
+  }
+
+  &__product-title {
+    font-weight: 500;
+    font-size: 15px;
+    color: $primary;
+    margin-bottom: 10px;
+  }
+
+  &__right {
+    width: 100%;
+    max-width: calc(100% - 445px);
+    display: flex;
+    align-items: center;
+
+    @media(max-width: 1740px) {
+      max-width: calc(100% - 350px);
+    }
+    @media(max-width: 1440px) {
+       max-width: calc(100% - 300px);
+    }
+  }
+
+  &__col {
+    width: 100%;
+    max-width: calc(33.333%);
+  }
+
+  &__price {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__price-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: $primary;
+    margin-right: 5px;
+    @media(max-width: 1740px) {
+      font-size: 18px;
+    }
+  }
+
+  &__price-currency {
+    font-size: 18px;
+    font-weight: 400;
+    @media(max-width: 1740px) {
+      font-size: 16px;
+    }
+  }
+
+  &__remove {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border-radius: 10px;
+    background: #F8F8F8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      #{$root} {
+        &__remove-ico {
+          fill: $dark;
+        }
+      }
+    }
+  }
+  &__remove-ico {
+    width: 24px;
+    height: 24px;
+    fill: $shadow-primary;
+  }
+}
+</style>

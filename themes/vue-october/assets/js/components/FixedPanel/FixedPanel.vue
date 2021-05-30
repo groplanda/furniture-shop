@@ -6,7 +6,7 @@
         ._nav-radius
 
       ._nav-item.-cart
-        router-link(to="cart")._cart-link
+        router-link(:to="{ name: 'cart' }" v-if="cart")._cart-link
         ._cart-amount(v-if="!showPanel") {{ cart }}
         icon(name="cart" component="header")._cart-ico
     ._menu

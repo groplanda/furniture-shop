@@ -1,0 +1,114 @@
+<template lang="pug">
+  .cart-table
+    ._inner
+      ._heading
+        ._heading-left
+          ._heading-title Товар
+        ._heading-right
+          ._heading-title Цена
+          ._heading-title Кол-во
+          ._heading-title Сумма
+      ._body
+        CartItem(
+          v-for="product in cartProduct"
+          :key="product.id"
+          :product="product"
+          @deleteProduct="updateProducts")
+
+</template>
+<script>
+import CartItem from "./CartItem"
+
+export default {
+  name: "CartTable",
+  components: {
+    CartItem
+  },
+  props: {
+    products: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      cartProduct: this.products
+    }
+  },
+  methods: {
+    updateProducts(id) {
+      const productIndex = this.cartProduct.findIndex(el => el.id === id);
+      if (productIndex !== -1) {
+        this.cartProduct.splice(productIndex, 1);
+      }
+    }
+  }
+}
+</script>
+<style lang="scss">
+@import '@/scss/vars.scss';
+.cart-table {
+  width: 100%;
+  max-width: calc(100% - 445px);
+
+  @media(max-width: 1440px) {
+    max-width: calc(100% - 400px);
+  }
+  $root: &;
+
+  &__heading {
+    padding: 0px 90px 30px 30px;
+    display: flex;
+    align-items: center;
+
+    @media(max-width: 1740px) {
+      padding: 0px 75px 20px 20px;
+    }
+
+    @media(max-width: 1440px) {
+      padding: 0px 60px 15px 15px;
+    }
+  }
+
+  &__heading-left {
+    width: 100%;
+    max-width: 455px;
+    @media(max-width: 1740px) {
+      max-width: 350px;
+    }
+    @media(max-width: 1440px) {
+      max-width: 300px;
+    }
+  }
+
+  &__heading-right {
+    width: 100%;
+    max-width: calc(100% - 445px);
+    display: flex;
+    align-items: center;
+
+    @media(max-width: 1740px) {
+      max-width: calc(100% - 350px);
+    }
+    @media(max-width: 1440px) {
+     max-width: calc(100% - 300px);
+    }
+
+    #{$root} {
+      &__heading-title {
+        width: 100%;
+        max-width: calc(33.333%);
+      }
+    }
+  }
+
+  &__heading-title {
+    font-weight: 500;
+    font-size: 17px;
+    color: $primary;
+    @media(max-width: 1440px) {
+      font-size: 16px;
+    }
+  }
+}
+</style>

@@ -3,18 +3,18 @@
     input(type="hidden" v-model="product.id")
     ._top
       ._tags
-        ._tag.-new New
-        ._tag.-sale Sale
+        ._tag.-new(v-if="product.is_new") New
+        ._tag.-sale(v-if="product.sale_price") Sale
       ._image
-        router-link(:to="product.url")._link
-          img(:src="product.img", :alt="product.title")._image-thumb
+        router-link(:to="'/product/' + product.id")._link
+          img(:src="'/storage/app/media/' + product.image", :alt="product.title")._image-thumb
       ._order
         button(type="submit")._order-btn
           icon(name="cart" component="header")._order-ico
 
     ._bottom
       ._title {{ product.title }}
-      router-link(:to="product.category")._category  {{ product.category }}
+      router-link(:to="'/category/' + product.categories[0].slug" v-if="product.categories")._category  {{ product.categories[0].title}}
       ._code Артикул: {{ product.code }}
 
       ._cart
@@ -36,8 +36,8 @@
           ._current-price
             strong._price-val {{ (product.price).toLocaleString('ru') }}
             span._price-label руб.
-          ._old-price(v-if="product.salePrice")
-            strong._price-val {{ (product.salePrice).toLocaleString('ru') }}
+          ._old-price(v-if="product.sale_price")
+            strong._price-val {{ (product.sale_price).toLocaleString('ru') }}
             span._price-label руб.
 
 
@@ -68,6 +68,7 @@ export default {
     addToCart() {
       if( this.amount > 0 && this.product?.id) {
         this.$store.dispatch("addToCart", { id: this.product.id, amount: this.amount })
+        this.amount = 1;
         this.$emit("showPopup", true);
       }
     }
