@@ -13,7 +13,8 @@
           v-for="product in cartProduct"
           :key="product.id"
           :product="product"
-          @deleteProduct="updateProducts")
+          @deleteProduct="deleteProduct"
+          @updateProduct="updateProduct")
 
 </template>
 <script>
@@ -36,11 +37,15 @@ export default {
     }
   },
   methods: {
-    updateProducts(id) {
+    deleteProduct(id) {
       const productIndex = this.cartProduct.findIndex(el => el.id === id);
       if (productIndex !== -1) {
         this.cartProduct.splice(productIndex, 1);
       }
+    },
+    updateProduct(data) {
+      const productIndex = this.cartProduct.findIndex(el => el.id === data.id);
+      this.cartProduct[productIndex].amount =  data.amount;
     }
   }
 }
@@ -52,9 +57,20 @@ export default {
   max-width: calc(100% - 445px);
 
   @media(max-width: 1440px) {
-    max-width: calc(100% - 400px);
+    max-width: 100%;
+  }
+  @media(max-width: 767px) {
+    max-width: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   $root: &;
+
+  &__inner {
+    @media(max-width: 767px) {
+      width: 747px;
+    }
+  }
 
   &__heading {
     padding: 0px 90px 30px 30px;
@@ -68,6 +84,10 @@ export default {
     @media(max-width: 1440px) {
       padding: 0px 60px 15px 15px;
     }
+
+    @media(max-width: 991px) {
+      padding: 0px 40px 10px 10px;
+    }
   }
 
   &__heading-left {
@@ -78,6 +98,9 @@ export default {
     }
     @media(max-width: 1440px) {
       max-width: 300px;
+    }
+    @media(max-width: 991px) {
+      max-width: 220px;
     }
   }
 
@@ -93,6 +116,9 @@ export default {
     @media(max-width: 1440px) {
      max-width: calc(100% - 300px);
     }
+    @media(max-width: 991px) {
+      max-width: calc(100% - 220px);
+    }
 
     #{$root} {
       &__heading-title {
@@ -106,8 +132,12 @@ export default {
     font-weight: 500;
     font-size: 17px;
     color: $primary;
+
     @media(max-width: 1440px) {
       font-size: 16px;
+    }
+    @media(max-width: 991px) {
+      font-size: 14px;
     }
   }
 }

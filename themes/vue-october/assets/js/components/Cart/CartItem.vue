@@ -9,7 +9,7 @@
   ._right
     ._col
       ._price
-        ._price-val {{ (product.price).toLocaleString('ru') }}
+        ._price-val {{ productPrice }}
         ._price-currency руб.
 
     ._col
@@ -29,7 +29,7 @@
           icon(name="plus" component="product").product-item__amount-ico
     ._col
       ._price
-        ._price-val {{ (product.price * count).toLocaleString('ru') }}
+        ._price-val {{ totalPrice }}
         ._price-currency руб.
   button(type="button" @click="deleteProduct")._remove
     icon(name="trash" component="cart")._remove-ico
@@ -49,6 +49,23 @@ export default {
       count: this.product.amount
     }
   },
+  computed: {
+    productPrice() {
+      if (this.product.sale_price !== 0) {
+        return (this.product.sale_price).toLocaleString('ru')
+      }
+      return (this.product.price).toLocaleString('ru')
+    },
+    totalPrice() {
+      let result = 0
+      if (this.product.sale_price !== 0) {
+        result = this.product.sale_price * this.count;
+      } else {
+        result = this.product.price * this.count;
+      }
+      return (result).toLocaleString('ru');
+    }
+  },
   methods: {
     updateAmount(e) {
       if (e.target.dataset.jsAction === "plus" && this.product.amount < 100) {
@@ -57,6 +74,7 @@ export default {
         this.count = this.count - 1;
       }
       this.updateCart();
+      this.$emit("updateProduct", { id: this.product.id, amount: this.count });
     },
     updateCart() {
       if( this.count > 0 && this.product?.id) {
@@ -74,7 +92,7 @@ export default {
 @import '@/scss/vars.scss';
 .cart-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   padding: 30px 90px 30px 30px;
   background: #FFF;
@@ -85,15 +103,19 @@ export default {
   $root: &;
 
   @media(max-width: 1740px) {
-    padding: 0px 75px 20px 20px;
+    padding: 20px 75px 20px 20px;
   }
   @media(max-width: 1440px) {
-    padding: 0px 60px 15px 15px;
+    padding: 15px 60px 15px 15px;
+  }
+  @media(max-width: 991px) {
+    padding: 10px 40px 10px 10px;
   }
 
   &__product {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     width: 100%;
     max-width: 445px;
     padding-right: 20px;
@@ -103,6 +125,9 @@ export default {
     }
     @media(max-width: 1440px) {
       max-width: 300px;
+    }
+    @media(max-width: 991px) {
+      max-width: 220px;
     }
   }
 
@@ -158,6 +183,9 @@ export default {
     font-size: 15px;
     color: $primary;
     margin-bottom: 10px;
+    @media(max-width: 991px) {
+      font-size: 14px;
+    }
   }
 
   &__right {
@@ -170,7 +198,10 @@ export default {
       max-width: calc(100% - 350px);
     }
     @media(max-width: 1440px) {
-       max-width: calc(100% - 300px);
+      max-width: calc(100% - 300px);
+    }
+    @media(max-width: 991px) {
+      max-width: calc(100% - 220px);
     }
   }
 
@@ -192,6 +223,9 @@ export default {
     @media(max-width: 1740px) {
       font-size: 18px;
     }
+    @media(max-width: 991px) {
+      font-size: 16px;
+    }
   }
 
   &__price-currency {
@@ -200,13 +234,16 @@ export default {
     @media(max-width: 1740px) {
       font-size: 16px;
     }
+    @media(max-width: 991px) {
+      font-size: 14px;
+    }
   }
 
   &__remove {
     width: 60px;
     height: 60px;
     position: absolute;
-    top: 30px;
+    top: calc(50% - 30px);
     right: 30px;
     border-radius: 10px;
     background: #F8F8F8;
@@ -223,11 +260,21 @@ export default {
         }
       }
     }
+
+    @media(max-width: 991px) {
+      width: 40px;
+      height: 40px;
+      top: calc(50% - 20px);
+    }
   }
   &__remove-ico {
     width: 24px;
     height: 24px;
     fill: $shadow-primary;
+    @media(max-width: 991px) {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 </style>

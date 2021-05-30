@@ -17,6 +17,7 @@ fields:
         span: auto
         default: '0'
         type: number
+        comment: 'Если нет скидки - оставить 0'
 tabs:
     fields:
         is_new:

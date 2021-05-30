@@ -48,7 +48,8 @@ const cart = {
       }
       commit("SET_CART", data);
     },
-    updateCart( {commit} , data) {
+    updateCart( {commit, dispatch} , data) {
+      dispatch("setLoading", true);
       if (localStorage.getItem('cart')) {
         const cart = JSON.parse(localStorage.getItem('cart'));
         const result = cart.map(product => {
@@ -60,8 +61,10 @@ const cart = {
         localStorage.setItem('cart', JSON.stringify(result));
       }
       commit("UPDATE_CART", data);
+      dispatch("setLoading", false);
     },
-    deleteProduct({commit}, data) {
+    deleteProduct({commit, dispatch}, data) {
+      dispatch("setLoading", true);
       if (localStorage.getItem('cart')) {
         const cart = JSON.parse(localStorage.getItem('cart'));
         const productIndex = cart.findIndex(el => el.id === data);
@@ -71,6 +74,7 @@ const cart = {
         }
       }
       commit("DELETE_PRODUCT", data);
+      dispatch("setLoading", false);
     }
   },
   getters: {
