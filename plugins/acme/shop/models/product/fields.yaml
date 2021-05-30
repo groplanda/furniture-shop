@@ -10,10 +10,12 @@ fields:
     price:
         label: 'Базовая цена'
         span: auto
+        default: '0'
         type: number
     sale_price:
         label: 'Цена по скидке'
         span: auto
+        default: '0'
         type: number
 tabs:
     fields:
