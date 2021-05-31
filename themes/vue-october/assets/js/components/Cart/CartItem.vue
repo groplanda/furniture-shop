@@ -58,10 +58,10 @@ export default {
     },
     totalPrice() {
       let result = 0
-      if (this.product.sale_price !== 0) {
-        result = this.product.sale_price * this.count;
+      if (+this.product.sale_price !== 0) {
+        result = +this.product.sale_price * +this.count;
       } else {
-        result = this.product.price * this.count;
+        result = +this.product.price * +this.count;
       }
       return (result).toLocaleString('ru');
     }
