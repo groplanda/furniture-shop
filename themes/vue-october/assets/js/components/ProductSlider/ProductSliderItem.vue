@@ -36,7 +36,7 @@
           ._current-price
             strong._price-val {{ productPrice }}
             span._price-label руб.
-          ._old-price(v-if="product.sale_price !== 0")
+          ._old-price(v-if="+product.sale_price !== 0")
             strong._price-val {{ (product.price).toLocaleString('ru') }}
             span._price-label руб.
 
@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     productPrice() {
-      if (this.product.sale_price !== 0) {
+      if (+this.product.sale_price !== 0) {
         return (this.product.sale_price).toLocaleString('ru')
       }
       return (this.product.price).toLocaleString('ru')

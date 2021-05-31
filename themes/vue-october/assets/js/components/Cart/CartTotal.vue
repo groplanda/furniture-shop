@@ -50,7 +50,7 @@ export default {
     calcSaleSum() {
       let result = 0;
       this.products.forEach(product => {
-        if (product.sale_price !== 0) {
+        if (+product.sale_price !== 0) {
           result += (Number(product.price) - Number(product.sale_price)) * Number(product.amount);
         }
       })

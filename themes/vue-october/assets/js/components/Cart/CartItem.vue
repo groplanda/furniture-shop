@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     productPrice() {
-      if (this.product.sale_price !== 0) {
+      if (+this.product.sale_price !== 0) {
         return (this.product.sale_price).toLocaleString('ru')
       }
       return (this.product.price).toLocaleString('ru')
