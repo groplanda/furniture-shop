@@ -14,6 +14,7 @@ Route::prefix('/api')->group(function () {
   Route::get('/products/{ids}', function ($ids) {
     return Product::select('id','title','image','price','sale_price')->whereIn('id', explode(',', $ids))->get();
   });
+  Route::post('/add-order', 'Acme\Shop\Classes\OrderController@add');
   // Route::get('/post/{name}', 'Acme\Setting\Classes\Posts@getPost');
   // Route::get('/gallery/{slug}', 'Acme\Setting\Classes\Galleries@getGallery');
   // Route::get('/services', function () {

@@ -15,3 +15,9 @@
 1.0.6:
     - 'Created table acme_shop_product_tags'
     - builder_table_create_acme_shop_product_tags.php
+1.0.7:
+    - 'Created table acme_shop_orders'
+    - builder_table_create_acme_shop_orders.php
+1.0.8:
+    - 'Updated table acme_shop_orders'
+    - builder_table_update_acme_shop_orders.php

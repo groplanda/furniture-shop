@@ -10,16 +10,16 @@
     ._item(v-if="sale > 0")
       ._item-label Скидка:
       ._item-val
-        ._item-price {{ sale }}
+        ._item-price {{ sale.toLocaleString('ru') }}
         ._item-curency руб.
     ._item
       ._item-label.-total Итого:
       ._item-val.-total
-        ._item-price {{ (sum - sale).toLocaleString('ru') }}
+        ._item-price {{ (total).toLocaleString('ru') }}
         ._item-curency руб.
 
-    button(type="button")._order Сделать заказ
-
+    button(v-if="showBtn" type="button" @click="$router.push({ name: 'checkout' })")._order Сделать заказ
+    button(v-else type="button" @click="$router.push({ name: 'cart' })")._order Вернуть в корзину
 
 </template>
 <script>
@@ -29,6 +29,10 @@ export default {
     products: {
       type: Array,
       required: true
+    },
+    showBtn: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -37,6 +41,9 @@ export default {
     },
     sale() {
       return this.calcSaleSum();
+    },
+    total() {
+      return Number(this.sum) - Number(this.sale);
     }
   },
   methods: {

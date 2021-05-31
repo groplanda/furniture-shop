@@ -1,17 +1,16 @@
 <template lang="pug">
-  .section
+  section.cart.section
     Preloader(v-if="loading")
-    .container.-main
-      .cart
-        ._heading
-          ._title Корзина
-        ._row(v-if="products.length > 0")
-          CartTable(:products="products")
-          CartTotal(:products="products")
-        ._empty(v-else)
-          ._empty-inner
-            ._empty-text Корзина пуста!
-            router-link(to="#!")._empty-link Вернуться на главную
+    ._container.container.container--main
+      ._heading
+        ._title Корзина
+      ._row(v-if="products.length > 0")
+        CartTable(:products="products")
+        CartTotal(:products="products")
+      ._empty(v-else)
+        ._empty-inner
+          ._empty-text Корзина пуста!
+          router-link(to="#!")._empty-link Вернуться на главную
 
 </template>
 <script>
