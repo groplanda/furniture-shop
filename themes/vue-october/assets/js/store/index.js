@@ -23,7 +23,8 @@ class Settings {
 export default new Vuex.Store({
   state: {
     loading: false,
-    settings: {}
+    settings: {},
+    fixedPanel: false
   },
   getters: {
     getLoading(state) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     getSettings(state) {
       return state.settings;
+    },
+    getPanelStatus(state) {
+      return state.fixedPanel;
     }
   },
   mutations: {
@@ -39,6 +43,9 @@ export default new Vuex.Store({
     },
     SET_SETTINGS(state, payload) {
       state.settings = payload;
+    },
+    SET_FIXEDPANEL_STATUS(state, payload) {
+      state.fixedPanel = payload;
     }
   },
   actions: {
@@ -56,6 +63,9 @@ export default new Vuex.Store({
       .catch(err => {
         console.log(err);
       })
+    },
+    setFixedPanelStatus({ commit }, data) {
+      commit("SET_FIXEDPANEL_STATUS", data);
     }
   },
   modules: {

@@ -35,8 +35,9 @@ Route::prefix('/api')->group(function () {
   });
   Route::get('/category/{slug}', function ($slug) {
     return Category::where('slug', $slug)->with(['products'])->first();
-    // $products = Product::select('id','title','image','price','sale_price','is_new','is_hit','code')->with(['categories'])->orderBy('sort_order', 'asc')->where('is_active', 1)->get();
-    // return $products;
+  });
+  Route::get('/product/{id}', function ($id) {
+    return Product::with(['categories', 'gallery', 'tags'])->where('id', $id)->first();
   });
   // Route::get('/post/{name}', 'Acme\Setting\Classes\Posts@getPost');
   // Route::get('/gallery/{slug}', 'Acme\Setting\Classes\Galleries@getGallery');

@@ -28,14 +28,9 @@
 <script>
 export default {
   name: "FixedPanel",
-  data() {
-    return {
-      showPanel: false,
-    }
-  },
   watch: {
     $route (){
-      this.togglePanel();
+      if(this.showPanel) this.togglePanel();
     }
   },
   computed: {
@@ -50,12 +45,15 @@ export default {
     },
     categories() {
       return this.$store.getters.getCategories;
+    },
+    showPanel() {
+      return this.$store.getters.getPanelStatus;
     }
   },
   methods: {
     togglePanel() {
-      this.showPanel = !this.showPanel;
-      this.$emit('togglePanel', this.showPanel);
+      const status = this.showPanel;
+      this.$store.dispatch("setFixedPanelStatus", !status);
       const offset = this.pageYOffset || document.documentElement.scrollTop;
 
       if (offset > 130) {

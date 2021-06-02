@@ -106,15 +106,8 @@ export default {
       return formattedPhone(phone);
     },
     openNav() {
-      const nav = document.querySelector(".fixed-panel"),
-            body = document.body,
-            activeClassName = "fixed-panel--active";
-
-      nav.classList.toggle(activeClassName);
-
-      nav.classList.contains(activeClassName)
-      ? body.classList.add("open-modal")
-      : body.classList.remove("open-modal");
+      const status = this.showPanel;
+      this.$store.dispatch("setFixedPanelStatus", !status);
     }
   }
 }

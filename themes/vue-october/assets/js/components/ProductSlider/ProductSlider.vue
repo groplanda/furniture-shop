@@ -6,7 +6,7 @@
 
     ._heading
       ._title {{ title }}
-      ._controls(v-if="products.length >= 4")
+      ._controls
         button._controls-btn.-prev(@click="swiper.slidePrev()")
           icon(name="control-prev" component="banner")._controls-ico
         button._controls-btn.-next(@click="swiper.slideNext()")

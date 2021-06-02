@@ -1,7 +1,7 @@
 <template lang="pug">
   .wrapper(:class="{ 'wrapper--active': activeWrapper }")
     Header(:settings="settings")
-    FixedPanel(@togglePanel="togglePanel")
+    FixedPanel
     .wrapper__container
       router-view
     Footer(:settings="settings")
@@ -19,14 +19,12 @@ export default {
     FixedPanel,
     Footer
   },
-  data() {
-    return {
-      activeWrapper: false
-    }
-  },
   computed: {
     settings() {
       return this.$store.getters.getSettings;
+    },
+    activeWrapper() {
+      return this.$store.getters.getPanelStatus;
     }
   },
   watch: {
@@ -34,11 +32,6 @@ export default {
       this.activeWrapper
       ? document.body.classList.add("open-modal")
       : document.body.classList.remove("open-modal");
-    }
-  },
-  methods: {
-    togglePanel(event) {
-      this.activeWrapper = event;
     }
   },
   created() {

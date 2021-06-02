@@ -6,7 +6,7 @@
         ._tag.-new(v-if="product.is_new") New
         ._tag.-sale(v-if="product.sale_price") Sale
       ._image
-        router-link(:to="'/product/' + product.id")._link
+        router-link(:to="{ name: 'product', params: { id: product.id }}")._link
           img(:src="'/storage/app/media' + product.image", :alt="product.title")._image-thumb
       ._order
         button(type="submit")._order-btn
@@ -14,7 +14,7 @@
 
     ._bottom
       ._title {{ product.title }}
-      router-link(:to="'/category/' + product.categories[0].slug" v-if="product.categories")._category  {{ product.categories[0].title}}
+      router-link(:to="{ name: 'category', params: { slug: product.categories[0].slug }}" v-if="product.categories")._category  {{ product.categories[0].title}}
       ._code Артикул: {{ product.code }}
 
       ._cart

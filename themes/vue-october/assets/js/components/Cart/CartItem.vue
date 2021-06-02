@@ -2,10 +2,10 @@
 .cart-item
   ._product
     ._product-img
-      router-link(to="#!")._product-link
+      router-link(:to="{ name: 'product', params: { id: product.id }}")._product-link
       img(:src="'/storage/app/media/' + product.image", :alt="product.title")._product-thumb
     ._product-group
-      router-link(to="#!")._product-title {{ product.title }}
+      router-link(:to="{ name: 'product', params: { id: product.id }}")._product-title {{ product.title }}
   ._right
     ._col
       ._price
