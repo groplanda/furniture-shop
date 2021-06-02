@@ -26,7 +26,8 @@ class Product extends Model
      * @var array Validation rules
      */
     public $rules = [
-      'title' => 'required'
+      'title' => 'required',
+      'gallery.*' => 'image|max:1000|dimensions:min_width=100,min_height=100'
     ];
 
     public $attachMany = [
@@ -43,6 +44,10 @@ class Product extends Model
       'categories' => [
           'Acme\Shop\Models\Category',
           'table' => 'acme_shop_product_categories',
+      ],
+      'tags' => [
+        'Acme\Shop\Models\Tag',
+        'table' => 'acme_shop_product_tags',
       ],
     ];
 }

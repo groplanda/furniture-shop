@@ -3,31 +3,27 @@
     ._title Подборки /
     ._body
       ._list
-        router-link(to="#!" v-for="(tag, index) in tags" :key="index")._item {{ tag.title }}
+        router-link(:to="'/tag/' + tag.slug" v-for="tag in tags" :key="tag.slug")._item {{ tag.title }}
 
 </template>
 <script>
+import axios from "axios";
+
 export default {
   name: "Tags",
   data() {
     return {
-      tags: [
-        { title: "Стулья" },
-        { title: "Детская" },
-        { title: "Современная мебель" },
-        { title: "С ящиками" },
-        { title: "Мебель для дома" },
-        { title: "Мебель для столовой" },
-        { title: "Новинки" },
-        { title: "Кресла" },
-        { title: "Кухни" },
-        { title: "Экокожа" },
-        { title: "Классика" },
-        { title: "Стулья для кухни" },
-        { title: "Зеркала" },
-        { title: "Прихожая" }
-      ]
+      tags: []
     }
+  },
+  created() {
+    axios.get("/api/tags")
+      .then(response => {
+        this.tags = response.data
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }
 }
 </script>

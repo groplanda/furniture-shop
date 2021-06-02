@@ -5,6 +5,8 @@ import Home from '@vue/page/Home'
 import About from '@vue/page/About'
 import Cart from '@vue/page/Cart'
 import Checkout from '@vue/page/Checkout'
+import Post from '@vue/page/Post'
+import Category from '@vue/page/Category'
 
 Vue.use(Router);
 let router = new Router({
@@ -29,6 +31,16 @@ let router = new Router({
           path: '/checkout',
           name: 'checkout',
           component: Checkout
+        },
+        {
+          path: '/post/:slug',
+          name: 'post',
+          component: Post
+        },
+        {
+          path: '/category/:slug',
+          name: 'category',
+          component: Category
         }
     ]
 });

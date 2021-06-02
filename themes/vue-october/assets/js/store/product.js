@@ -18,7 +18,7 @@ const product = {
   },
   actions: {
     fetchNewProducts( {commit} ) {
-      axios.get('api/new-products')
+      axios.get('/api/new-products')
       .then(response => {
         commit("SET_NEW_PRODUCTS", response.data)
       })
@@ -27,7 +27,7 @@ const product = {
       })
     },
     fetchPopularProducts( {commit} ) {
-      axios.get('api/popular-products')
+      axios.get('/api/popular-products')
       .then(response => {
         commit("SET_POPULAR_PRODUCTS", response.data)
       })
@@ -37,7 +37,7 @@ const product = {
     },
     fetchProductsByIds( {commit}, payload) {
       const productIds = payload.map(el => el.id);
-      axios.get(`api/products/${productIds}`)
+      axios.get(`/api/products/${productIds}`)
       .then(response => {
         const result = response.data.map(product => {
           payload.map(element => {

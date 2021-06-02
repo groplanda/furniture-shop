@@ -4,15 +4,7 @@ columns:
         type: text
         searchable: true
         sortable: true
-    image:
-        label: Фото
-        type: partial
-        path: ~/plugins/acme/shop/models/category/_image_column.htm
-    is_show:
-        label: Активная
-        type: switch
     sort_order:
         label: 'Порядок сортировки'
         type: number
-        searchable: false
         sortable: true

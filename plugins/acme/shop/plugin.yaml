@@ -10,6 +10,10 @@ navigation:
         url: acme/shop/products
         icon: icon-shopping-cart
         sideMenu:
+            item-products:
+                label: 'Все товары'
+                url: acme/shop/products
+                icon: icon-tachometer
             menu-add-product:
                 label: 'Добавить товар'
                 url: acme/shop/products/create
@@ -22,3 +26,7 @@ navigation:
                 label: Заказы
                 url: acme/shop/orders
                 icon: icon-briefcase
+            item-tag:
+                label: Теги
+                url: acme/shop/tags
+                icon: icon-tags

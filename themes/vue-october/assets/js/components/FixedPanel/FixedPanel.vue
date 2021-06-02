@@ -18,8 +18,8 @@
             ._menu-panel
               ._menu-title Каталог
               ._menu-list
-                ._menu-item(v-for="category in categories")
-                  router-link(:to="category.to")._menu-link {{ category.text }}
+                ._menu-item(v-for="category in categories" :key="category.id")
+                  router-link(:to="{ name: 'category', params: { slug: category.slug }}" @click="togglePanel")._menu-link {{ category.title }}
                   icon(name="arrow" component="fixed-panel")._menu-ico
 
 
@@ -31,14 +31,11 @@ export default {
   data() {
     return {
       showPanel: false,
-      categories: [
-        { to: "#!", text: "Мебель для дома" },
-        { to: "#!", text: "Мебель для спален" },
-        { to: "#!", text: "Мебель для кухни" },
-        { to: "#!", text: "Мебель для офиса" },
-        { to: "#!", text: "Мебель для ресторана" },
-        { to: "#!", text: "Детская мебель" }
-      ]
+    }
+  },
+  watch: {
+    $route (){
+      this.togglePanel();
     }
   },
   computed: {
@@ -50,6 +47,9 @@ export default {
       }
 
       return 0;
+    },
+    categories() {
+      return this.$store.getters.getCategories;
     }
   },
   methods: {

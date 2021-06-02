@@ -1,6 +1,10 @@
 <?php
 use Acme\Shop\Models\Product;
 use Acme\Shop\Models\Category;
+use Acme\Shop\Models\Tag;
+use Cms\Models\ThemeData;
+use RainLab\Pages\Classes\Menu as PagesMenu;
+use Cms\Classes\Theme;
 
 Route::prefix('/api')->group(function () {
   Route::get('/new-products', function () {
@@ -15,6 +19,25 @@ Route::prefix('/api')->group(function () {
     return Product::select('id','title','image','price','sale_price')->whereIn('id', explode(',', $ids))->get();
   });
   Route::post('/add-order', 'Acme\Shop\Classes\OrderController@add');
+  Route::get('/categories', function () {
+    return Category::orderBy('sort_order', 'asc')->where('is_show', 1)->withCount('products')->get();
+  });
+  Route::get('/settings/{name}', function ($name) {
+    return ThemeData::select('data')->where('theme', $name)->first();
+  });
+  Route::get('/tags', function () {
+    return Tag::select('title', 'slug')->orderBy('sort_order', 'asc')->limit(14)->get();
+  });
+  Route::get('/navbar', function () {
+    $theme = Theme::getActiveTheme();
+    $menu = PagesMenu::loadCached($theme, 'main');
+    return $menu->items;
+  });
+  Route::get('/category/{slug}', function ($slug) {
+    return Category::where('slug', $slug)->with(['products'])->first();
+    // $products = Product::select('id','title','image','price','sale_price','is_new','is_hit','code')->with(['categories'])->orderBy('sort_order', 'asc')->where('is_active', 1)->get();
+    // return $products;
+  });
   // Route::get('/post/{name}', 'Acme\Setting\Classes\Posts@getPost');
   // Route::get('/gallery/{slug}', 'Acme\Setting\Classes\Galleries@getGallery');
   // Route::get('/services', function () {

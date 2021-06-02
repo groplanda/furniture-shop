@@ -2,27 +2,24 @@
   .categories
     ._container
       ._row
-        ._item(v-for="(cat, index) in categories")
+        ._item(v-for="cat in categories" :key="cat.id")
           ._item-image
-            img(:src="cat.img", :alt="cat.title")._item-thumb
+            img(:src="'/storage/app/media' + cat.image", :alt="cat.title")._item-thumb
           ._item-title {{ cat.title }}
-          ._item-count {{ cat.count }}
-          router-link(:to="cat.link")._item-link
+          ._item-count(v-if="cat.products_count") {{ cat.products_count }}
+          router-link(:to="{ name: 'category', params: { slug: cat.slug }}")._item-link
 
 </template>
 <script>
 export default {
   name: "Categories",
   data() {
-    return {
-      categories: [
-        { title: "Мебель для дома", count: 32, img: "http://furniture-salon.oml.ru/thumb/2/yM_HSxTmZCu4BeT57hsz_Q/550r550/d/215141131.png", link: "#!" },
-        { title: "Мебель для спален", count: 20, img: "http://furniture-salon.oml.ru/thumb/2/9qN_XvWJCoAubc3I2g0SeA/1100r550/d/215141132.png", link: "#!" },
-        { title: "Мебель для кухни", count: 14, img: "http://furniture-salon.oml.ru/thumb/2/2JgBSgS211nCj5VKT3UmCw/550r550/d/215141120.png", link: "#!" },
-        { title: "Мебель для офиса", count: 18, img: "http://furniture-salon.oml.ru/thumb/2/XwxlCepg1CZw6Z1H6Iz3kQ/550r550/d/215141122.png", link: "#!" },
-        { title: "Мебель для ресторана", count: 44, img: "http://furniture-salon.oml.ru/thumb/2/9naj_OZIdVywB2ucRXSDGQ/550r550/d/215141125.png", link: "#!" },
-        { title: "Детская мебель", count: 68, img: "http://furniture-salon.oml.ru/thumb/2/mcREoJzj6UpA_heIhRoyEQ/550r550/d/215141127.png", link: "#!" },
-      ]
+    return {}
+  },
+  computed: {
+    categories() {
+      const cats = this.$store.getters.getCategories
+      return cats.slice(0, 5);
     }
   }
 }

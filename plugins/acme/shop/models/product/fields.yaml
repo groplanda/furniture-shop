@@ -68,3 +68,10 @@ tabs:
             span: full
             type: relation
             tab: Категории
+        tags:
+            label: Теги
+            nameFrom: title
+            descriptionFrom: description
+            span: full
+            type: relation
+            tab: Теги

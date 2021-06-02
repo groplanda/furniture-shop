@@ -7,7 +7,7 @@
         ._tag.-sale(v-if="product.sale_price") Sale
       ._image
         router-link(:to="'/product/' + product.id")._link
-          img(:src="'/storage/app/media/' + product.image", :alt="product.title")._image-thumb
+          img(:src="'/storage/app/media' + product.image", :alt="product.title")._image-thumb
       ._order
         button(type="submit")._order-btn
           icon(name="cart" component="header")._order-ico

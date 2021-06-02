@@ -1,10 +1,10 @@
 <template lang="pug">
   .wrapper(:class="{ 'wrapper--active': activeWrapper }")
-    Header
+    Header(:settings="settings")
     FixedPanel(@togglePanel="togglePanel")
     .wrapper__container
       router-view
-    Footer
+    Footer(:settings="settings")
 </template>
 
 <script>
@@ -24,6 +24,11 @@ export default {
       activeWrapper: false
     }
   },
+  computed: {
+    settings() {
+      return this.$store.getters.getSettings;
+    }
+  },
   watch: {
     activeWrapper() {
       this.activeWrapper
@@ -37,6 +42,8 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("fetchCategories");
+    this.$store.dispatch("fetchSettings");
     if (localStorage.getItem('cart')) {
       this.$store.dispatch("fillCart" , JSON.parse(localStorage.getItem('cart')));
     }

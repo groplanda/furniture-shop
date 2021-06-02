@@ -16,8 +16,8 @@
 
 
       ._row.-desktop
-        ._logo
-          ._logo-name Название компании
+        ._logo(v-if="settings.siteName")
+          ._logo-name {{ settings.siteName }}
           ._logo-info Магазин мебели
 
         nav._nav
@@ -25,13 +25,13 @@
             router-link(:to="link.url")._nav-link {{ link.text }}
 
         ._contacts
-          ._address.-top
+          ._address.-top(v-if="settings.address")
             icon(name="map" component="header")._address-ico
-            ._address-text г. Москва, Ленинский проспект, дом
+            ._address-text {{ settings.address }}
 
-          ._phone.-top
+          ._phone.-top(v-if="settings.phone")
             icon(name="phone" component="header")._phone-ico
-            a(href="tel:+70000000000")._phone-link +7 (000) 000-00-00
+            a(:href="'tel:' + preparePhone(phone.val)" v-for="(phone, index) in settings.phone" :key="index")._phone-link {{ phone.val }}
 
           button._more(@click="showPopup = !showPopup")
             icon(name="more" component="header")._more-ico
@@ -41,18 +41,24 @@
             button._popup-btn(@click="showPopup = false")
               icon(name="close" component="header")._popup-close
 
-            ._address
+            ._address(v-if="settings.address")
               icon(name="map" component="header")._address-ico
-              ._address-text г. Москва, Ленинский проспект, дом
+              ._address-text {{ settings.address }}
 
-            ._phone
+            ._phone(v-if="settings.phone")
               icon(name="phone" component="header")._phone-ico
-              a(href="tel:+70000000000")._phone-link +7 (000) 000-00-00
+              a(:href="'tel:' + preparePhone(phone.val)" v-for="(phone, index) in settings.phone" :key="index")._phone-link {{ phone.val }}
 
             ._social
               ._social-list
-                a(:href="social.url" v-for="(social, index) in socials")._social-link
-                  icon(:name="social.ico" component="header")._social-ico
+                a(:href="settings.instagram" v-if="settings.instagram && settings.instagram.length > 0" target="_blank")._social-link
+                  icon(name="instagram" component="header")._social-ico
+                a(:href="settings.vk" v-if="settings.vk && settings.vk.length > 0" target="_blank")._social-link
+                  icon(name="vk" component="header")._social-ico
+                a(:href="settings.ok" v-if="settings.ok && settings.ok.length > 0" target="_blank")._social-link
+                  icon(name="ok" component="header")._social-ico
+                a(:href="'whatsapp://send?phone=+' + settings.whatsapp" v-if="settings.whatsapp && settings.whatsapp.length > 0" target="_blank")._social-link
+                  icon(name="whatsapp" component="header")._social-ico
 
             button(type="button")._btn Заказать звонок
 
@@ -60,8 +66,17 @@
 
 </template>
 <script>
+import { formattedPhone } from '@vue/helpers/formatted.js';
 export default {
   name: "Header",
+  props: {
+    settings: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       showPopup: false,
@@ -72,12 +87,6 @@ export default {
         { url: '#!', text: 'Акции' },
         { url: '#!', text: 'Оплата' },
         { url: '#!', text: 'Контакты' }
-      ],
-      socials: [
-        { url: "#!", ico: "vk" },
-        { url: "#!", ico: "inst" },
-        { url: "#!", ico: "ok-ru" },
-        { url: "#!", ico: "whatsapp" }
       ]
     }
   },
@@ -93,6 +102,9 @@ export default {
     }
   },
   methods: {
+    preparePhone(phone) {
+      return formattedPhone(phone);
+    },
     openNav() {
       const nav = document.querySelector(".fixed-panel"),
             body = document.body,
@@ -405,6 +417,7 @@ export default {
     color: $primary;
     font-weight: bold;
     font-size: 21px;
+    display: block;
   }
 
   &__more {

@@ -1,0 +1,75 @@
+tabs:
+  defaultTab: Контакты
+  lazy:
+      - Контакты
+      - Общие
+  paneCssClass:
+      0: first-tab
+      1: second-tab
+  icons:
+      Контакты: icon-phone
+      Общие: icon-cogs
+  fields:
+      phone:
+          label: Телефон
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          type: repeater
+          prompt: Добавить
+          form:
+              fields:
+                  val:
+                    label: Номер
+                    type: text
+                    placeholder: '+79147580525'
+
+      t_email:
+          type: email
+          label: E-mail
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          placeholder: 'example@mail.ru'
+      address:
+          type: text
+          label: Адрес
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          placeholder: 'г. Москва'
+      whatsapp:
+          type: text
+          label: WhatsApp
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          placeholder: '79147580525'
+      ok:
+          type: text
+          label: Одноклассники
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          placeholder:  https://ok.ru
+      vk:
+          type: text
+          label: Вконтакте
+          span: storm
+          cssClass: col-md-4
+          tab: Контакты
+          placeholder: https://vk.com
+      instagram:
+        type: text
+        label: Instagram
+        span: storm
+        cssClass: col-md-4
+        tab: Контакты
+        placeholder: https://www.instagram.com
+
+      site_name:
+        type: text
+        label: Название сайта
+        default: OctoberCms
+        span: full
+        tab: Общие
