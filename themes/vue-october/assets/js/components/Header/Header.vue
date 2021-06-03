@@ -54,7 +54,7 @@
             ._social
               ._social-list
                 a(:href="settings.instagram" v-if="settings.instagram && settings.instagram.length > 0" target="_blank")._social-link
-                  icon(name="instagram" component="header")._social-ico
+                  icon(name="inst" component="header")._social-ico
                 a(:href="settings.vk" v-if="settings.vk && settings.vk.length > 0" target="_blank")._social-link
                   icon(name="vk" component="header")._social-ico
                 a(:href="settings.ok" v-if="settings.ok && settings.ok.length > 0" target="_blank")._social-link
