@@ -1,0 +1,11 @@
+plugin:
+    name: 'acme.settings::lang.plugin.name'
+    description: 'acme.settings::lang.plugin.description'
+    author: acme
+    icon: oc-icon-gear
+    homepage: ''
+navigation:
+    item-settings:
+        label: Настройки
+        url: acme/settings/sliders
+        icon: icon-cog

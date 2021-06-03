@@ -13,7 +13,7 @@
           icon(name="cart" component="header")._order-ico
 
     ._bottom
-      ._title {{ product.title }}
+      router-link(:to="{ name: 'product', params: { id: product.id }}")._title {{ product.title }}
       router-link(:to="{ name: 'category', params: { slug: product.categories[0].slug }}" v-if="product.categories")._category  {{ product.categories[0].title}}
       ._code Артикул: {{ product.code }}
 

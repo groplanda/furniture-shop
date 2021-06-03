@@ -3,36 +3,30 @@
     ._row
       ._slider
         Swiper(ref="BannerSlider" :options="sliderOptions")._swiper
-          SwiperSlide(v-for="(banner, idx) in banners" :key="idx")
+          SwiperSlide(v-for="banner in banners" :key="banner.id")
             ._slider-item
               ._slider-title {{ banner.title }}
-              img(:src="banner.img", :alt="banner.title")._slider-img
-              router-link(:to="banner.link")._slider-link
+              img(:src="'/storage/app/media' + banner.image", :alt="banner.title")._slider-img
+              a(:href="banner.link")._slider-link
         button._slider-control.-prev(@click="prevBanner")
           icon(name="control-prev" component="banner")._slider-ico
         button._slider-control.-next(@click="nextBanner")
-          img(:src="thumbSrc", alt="alt")._slider-thumb
+          img(:src="'/storage/app/media' + thumbSrc", alt="alt")._slider-thumb
           icon(name="control-prev" component="banner")._slider-ico.-mobile
 
-
       ._blocks
-        ._blocks-items
-          router-link(to="123")._blocks-link
-          img(src="http://furniture-salon.oml.ru/thumb/2/rfFZttAMWHW2YPAOScq-Bw/500r400/d/215141149.png", alt="alt")._blocks-img
-          ._blocks-title Лучшая цена!
-          ._blocks-price 30000 р.
+        ._blocks-items(v-for="(ad, index) in ads" :key="index")
+          a(:href="ad.link" v-if="ad.link")._blocks-link
+          img(:src="'/storage/app/media' + ad.image", :alt="ad.title")._blocks-img
+          ._blocks-title(v-if="ad.title") {{ ad.title }}
+          ._blocks-price(v-if="ad.tag") {{ ad.tag }}
 
-        ._blocks-items
-          router-link(to="123")._blocks-link
-          img(src="http://furniture-salon.oml.ru/thumb/2/rfFZttAMWHW2YPAOScq-Bw/500r400/d/215141149.png", alt="alt")._blocks-img
-          ._blocks-title Лучшая цена!
-          ._blocks-price 20000 р.
 
 
 </template>
 <script>
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-
+import axios from "axios";
 export default {
   name: "Banner",
   components: {
@@ -41,11 +35,7 @@ export default {
   },
   data() {
     return {
-      banners: [
-        { img: "http://furniture-salon.oml.ru/thumb/2/CsUcyU8IItevIbJ9T1e8cw/1920r/d/315485015.jpg", title: "Детская мебель", link: "#!" },
-        { img: "http://furniture-salon.oml.ru/thumb/2/VYBCyFL42YyX7-IvWQKDEg/1920r/d/315485016.jpg", title: "Мебель для дома", link: "#!" },
-        { img: "http://furniture-salon.oml.ru/thumb/2/XhWxKJQbxbf5OsffuQg5tQ/1920r/d/315485019.jpg", title: "Мебель для спален", link: "#!" }
-      ],
+      banners: [],
       thumbSrc: "",
       sliderOptions: {
         loop: true
@@ -58,6 +48,9 @@ export default {
   computed: {
     swiper() {
       return this.$refs.BannerSlider.$swiper
+    },
+    ads() {
+      return this.$store.getters.getSettings.banners;
     }
   },
   methods: {
@@ -70,18 +63,32 @@ export default {
       this.updateThumb();
     },
     setNextThumb() {
-      this.thumbSrc = this.banners[this.swiper.realIndex + 1].img;
+      this.thumbSrc = this.banners[this.swiper.realIndex + 1].image;
     },
     updateThumb() {
       if (this.swiper.realIndex < this.banners.length - 1) {
         this.setNextThumb();
       } else {
-        this.thumbSrc = this.banners[0].img;
+        this.thumbSrc = this.banners[0].image;
       }
+    },
+    fetchSlides() {
+      axios.get("/api/slider")
+      .then(response => {
+        this.banners = response.data;
+      })
+      .catch(e => {
+        console.log(e);
+      })
     }
   },
+  created() {
+    this.fetchSlides();
+  },
   mounted() {
-    this.setNextThumb()
+    setTimeout(() => {
+      this.setNextThumb()
+    }, 300)
   }
 }
 </script>

@@ -16,7 +16,9 @@
 
 
       ._row.-desktop
-        ._logo(v-if="settings.siteName")
+        router-link(v-if="settings.siteLogo" :to="{name: 'home'}")._logo
+          img(:src="'/storage/app/media' + settings.siteLogo", :alt="settings.siteName")._logo-thumb
+        ._logo(v-else-if="settings.siteName")
           ._logo-name {{ settings.siteName }}
           ._logo-info Магазин мебели
 
@@ -229,6 +231,13 @@ export default {
       padding-right: 0;
       text-align: center;
     }
+  }
+
+  &__logo-thumb {
+    display: flex;
+    max-width: 100%;
+    height: 75px;
+    max-height: 75px;
   }
 
   &__logo-name {

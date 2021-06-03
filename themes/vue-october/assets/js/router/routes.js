@@ -47,6 +47,11 @@ let router = new Router({
           path: '/product/:id',
           name: 'product',
           component: Product
+        },
+        {
+          path: '/tag/:slug',
+          name: 'tag',
+          component: Category
         }
     ]
 });

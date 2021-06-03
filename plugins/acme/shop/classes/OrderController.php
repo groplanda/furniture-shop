@@ -63,6 +63,38 @@ class OrderController extends Controller
     }
   }
 
+  public function send(Request $request)
+  {
+
+    $rules = [
+      'user_name'  => 'required|min:4|max:50',
+      'user_phone' => 'required|min:11|max:50',
+    ];
+
+    $messages = [
+      'required' => 'Поле обязательно к заполнению!',
+      'min'      => 'Минимум :min символов!',
+      'max'      => 'Максимум :max символов!',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+
+      $validatorErrors = $validator->errors()->toArray();
+      return response()->json(array_merge(['status' => 'error'], $validatorErrors));
+
+    } else {
+
+      Mail::send('acme.shop::mail.request', $request->all(), function($message) {
+        $message->to($this->getUserMail(), 'Admin Person');
+        $message->subject('Новое сообщение с сайта');
+      });
+
+      return response()->json(['status' => 'success', 'message' => 'Сообщение отправлено!']);
+    }
+  }
+
   public function getUserMail()
   {
     return User::where('is_superuser', 1)->value('email');

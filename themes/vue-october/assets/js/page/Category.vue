@@ -1,11 +1,13 @@
 <template lang="pug">
   section.category.section
+    transition(name="fade")
+      .product-slider__success(v-if="productPopup") Товар добавлен в корзину!
     ._container.container.container--main
       ._heading
         ._title {{ category.title }}
       ._row(v-if="category.products && category.products.length > 0")
         ._item(v-for="product in category.products" :key="product.id")
-          ProductSliderItem(:product="product")
+          ProductSliderItem(:product="product"  @showPopup="showPopup")
       ._empty(v-else) Товаров пока нет!
 
 
@@ -22,7 +24,8 @@ export default {
   data() {
     return {
       category: {},
-      slug: ""
+      slug: "",
+      productPopup: false
     }
   },
   watch: {
@@ -40,6 +43,13 @@ export default {
       .catch(e => {
         console.log(e);
       })
+    },
+    showPopup(event) {
+      this.productPopup = event;
+
+      setTimeout(() => {
+        this.productPopup = false;
+      }, 2000)
     }
   },
   created() {

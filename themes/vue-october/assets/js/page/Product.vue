@@ -1,5 +1,7 @@
 <template lang="pug">
   section.product.section
+    transition(name="fade")
+      .product-slider__success(v-if="productPopup") Товар добавлен в корзину!
     ._container.container.container--main
       ._row(data-sticky-container)
         ._body
@@ -20,7 +22,6 @@
                   :key="image.file_name"
                   @click="changeImage(image.path)")
                 img(:src="image.path", :alt="image.title")._slider-thumb-image
-
           ._content
             ._title {{ product.title }}
             ._categories-list
@@ -35,6 +36,34 @@
               ._entry-descr(v-html="product.description")
 
           ._bottom
+            ._order
+              ._order-row
+                ._price(v-if="product.price")
+                  ._current-price
+                    strong._price-val {{ productPrice }}
+                    span._price-label руб.
+                  ._old-price(v-if="+product.sale_price !== 0")
+                    strong._price-val {{ (product.price).toLocaleString('ru') }}
+                    span._price-label руб.
+                .product-item__amount
+                  button(
+                    type="button"
+                    @click="changeAmount"
+                    data-js-action="minus"
+                    :disabled="amount === 1"
+                    :class="{ 'product-item__amount-btn--disabled': amount === 1 }").product-item__amount-btn
+                    icon(name="minus" component="product").product-item__amount-ico
+                  input(type="number" v-model="amount" readonly).product-item__amount-val
+                  button(
+                    @click="changeAmount"
+                    data-js-action="plus"
+                    type="button").product-item__amount-btn
+                    icon(name="plus" component="product").product-item__amount-ico
+              button(type="button" @click="addToCart")._add
+                | В корзину
+                icon(name="cart" component="header")._add-ico
+
+
             ._entry.-mobile(v-if="product.description")
               ._entry-title Описание
               ._entry-descr(v-html="product.description")
@@ -55,50 +84,94 @@
 
 
         ._form(data-sticky-for="991" data-margin-top="20" data-sticky-class="product__form--sticky" data-js="sticky")
-          ._price
+          ._form-title Сделать заказ
+          ._form-tag
+            | В наличие
+            icon(name="check" component="product")._form-tag-ico
+          ._price(v-if="product.price")
             ._current-price
-              strong._price-val {{ product.price }}
+              strong._price-val {{ productPrice }}
               span._price-label руб.
             ._old-price(v-if="+product.sale_price !== 0")
-              strong._price-val {{ product.price }}
+              strong._price-val {{ (product.price).toLocaleString('ru') }}
               span._price-label руб.
-
+          .product-item__amount
+            button(
+              type="button"
+              @click="changeAmount"
+              data-js-action="minus"
+              :disabled="amount === 1"
+              :class="{ 'product-item__amount-btn--disabled': amount === 1 }").product-item__amount-btn
+              icon(name="minus" component="product").product-item__amount-ico
+            input(type="number" v-model="amount" readonly).product-item__amount-val
+            button(
+              @click="changeAmount"
+              data-js-action="plus"
+              type="button").product-item__amount-btn
+              icon(name="plus" component="product").product-item__amount-ico
+          button(type="button" @click="addToCart")._add
+            | В корзину
+            icon(name="cart" component="header")._add-ico
 
 </template>
 <script>
-import axios from "axios";
 const Sticky = require('sticky-js');
 
 export default {
   name: "Product",
   data() {
     return {
-      product: {},
-      id: null,
-      currentImage: ""
+      currentImage: "",
+      amount: 1,
+      productPopup: false
     }
   },
-  // computed: {
-  //   productPrice() {
-  //     if (this.product && +this.product.sale_price !== 0) {
-  //       return (this.product.sale_price).toLocaleString('ru')
-  //     }
-  //     return (this.product.price).toLocaleString('ru')
-  //   },
-  // },
+  watch: {
+    $route (to){
+      this.id = to.params.id;
+      this.$store.dispatch("fetchProductById", this.id);
+    },
+    product() {
+      if (this.product && this.product.image) {
+        this.changeImage('/storage/app/media' +  this.product.image);
+      }
+    }
+  },
+  computed: {
+    product() {
+      return this.$store.getters.getProduct;
+    },
+    productPrice() {
+      if (this.product && +this.product.sale_price !== 0) {
+        return (this.product.sale_price).toLocaleString('ru')
+      }
+      return (this.product.price).toLocaleString('ru')
+    },
+  },
   methods: {
-    fetchProduct(slug) {
-      axios.get("/api/product/" + slug)
-      .then(response => {
-        this.product = response.data
-        this.currentImage = '/storage/app/media' + this.product.image;
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    fetchProduct(id) {
+      this.$store.dispatch("fetchProductById", id);
     },
     changeImage(imgSrc) {
       this.currentImage = imgSrc;
+    },
+    changeAmount(e) {
+      if (e.target.dataset.jsAction === "plus" && this.amount < 100) {
+        this.amount = this.amount + 1;
+      } else if (e.target.dataset.jsAction === "minus" && this.amount > 1) {
+        this.amount = this.amount - 1;
+      }
+    },
+    addToCart() {
+      if( this.amount > 0 && this.product?.id) {
+        this.$store.dispatch("addToCart", { id: this.product.id, amount: this.amount })
+        this.amount = 1;
+        this.productPopup = true;
+
+        setTimeout(() => {
+          this.productPopup = false;
+        }, 2000)
+      }
     }
   },
   created() {
@@ -408,6 +481,21 @@ export default {
     }
   }
 
+  &__order {
+    display: none;
+    margin: 30px 0;
+
+    @media(max-width: 991px) {
+      display: block;
+    }
+  }
+
+  &__order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__folders {
     margin-bottom: 30px;
 
@@ -479,6 +567,42 @@ export default {
     }
   }
 
+  &__form-title {
+    color: $dark;
+    font-weight: 700;
+    font-size: 30px;
+    margin-bottom: 20px;
+
+    @media(max-width: 1199px) {
+      font-size: 25px;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__form-tag {
+    background: rgba(41, 194, 158, 0.15);
+    border-radius: 7px;
+    font-weight: 500;
+    font-size: 13px;
+    color: #29c29e;
+    padding: 7px 14px 7px 37px;
+    display: inline-flex;
+    position: relative;
+    margin-bottom: 30px;
+    @media(max-width: 1199px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__form-tag-ico {
+    color: #29C29E;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 14px;
+    top: calc(50% - 6px);
+  }
+
   &__price {
     width: 100%;
     display: flex;
@@ -486,8 +610,13 @@ export default {
     align-items: center;
     margin: 20px 0;
 
-    @media(max-width: 575px) {
-      margin: 15px 0;
+    @media(max-width: 991px) {
+      margin: 0;
+      height: 36px;
+    }
+
+    @media(max-width: 410px) {
+      height: auto;
     }
   }
 
@@ -500,6 +629,10 @@ export default {
       &__price-label {
         font-size: 20px;
       }
+    }
+
+    @media(max-width: 1199px) {
+      font-size: 22px;
     }
 
     @media(max-width: 575px) {
@@ -531,9 +664,45 @@ export default {
       }
     }
 
+    @media(max-width: 1199px) {
+      font-size: 18px;
+    }
+
     @media(max-width: 575px) {
       font-size: 16px;
     }
+  }
+
+  &__add {
+    margin-top: 30px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.2;
+    padding: 20px 30px;
+    color: #fff;
+    border: none;
+    background: $dark;
+    box-shadow: 7px 7px 30px $shadow-primary;
+    transition: all 0.18s linear;
+    border-radius: 10px;
+
+    &:hover, &:focus {
+      background: $dark2;
+    }
+
+    @media(max-width: 991px) {
+      max-width: 300px;
+    }
+  }
+
+  &__add-ico {
+    fill: #FFF;
+    width: 21px;
+    height: 21px;
   }
 }
 </style>

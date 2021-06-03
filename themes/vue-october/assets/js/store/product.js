@@ -3,7 +3,8 @@ const product = {
   state: () => ({
     newProducts: [],
     popularProducts: [],
-    cartProducts: []
+    cartProducts: [],
+    product: {}
   }),
   mutations: {
     SET_NEW_PRODUCTS(state, payload) {
@@ -14,7 +15,10 @@ const product = {
     },
     SET_CART_PRODUCTS(state, payload) {
       state.cartProducts = payload;
-    }
+    },
+    SET_PRODUCT(state, payload) {
+      state.product = payload;
+    },
   },
   actions: {
     fetchNewProducts( {commit} ) {
@@ -52,6 +56,15 @@ const product = {
       .catch(err => {
         console.log(err);
       })
+    },
+    fetchProductById({ commit }, payload) {
+      axios.get("/api/product/" + payload)
+      .then(response => {
+        commit("SET_PRODUCT", response.data)
+      })
+      .catch(e => {
+        console.log(e);
+      })
     }
   },
   getters: {
@@ -63,6 +76,9 @@ const product = {
     },
     getCartProducts(state) {
       return state.cartProducts;
+    },
+    getProduct(state) {
+      return state.product;
     }
   }
 }

@@ -3,7 +3,9 @@
     ._container.container.container--main
       ._row
         ._content
-          ._site(v-if="settings.siteName")
+          ._site(v-if="settings.siteLogo")
+            img(:src="'/storage/app/media' + settings.siteLogo", :alt="settings.siteName")._site-thumb
+          ._site(v-else-if="settings.siteName")
             ._site-name {{ settings.siteName }}
             ._site-descr Магазин мебели
             ._site-copy © 2021. All rights reserved
@@ -140,6 +142,11 @@ export default {
     @media(max-width: 991px) {
       display: none;
     }
+  }
+
+  &__site-thumb {
+    max-width: 200px;
+    display: flex;
   }
 
   &__site-name {
