@@ -9,7 +9,7 @@
           icon(name="phone" component="header")._call-ico
 
         ._cart
-          router-link(to="cart")._cart-link
+          router-link(:to="{ name: 'cart' }" v-if="cart")._cart-link
           ._cart-amount {{ cart }}
           icon(name="cart" component="header")._cart-ico
 
