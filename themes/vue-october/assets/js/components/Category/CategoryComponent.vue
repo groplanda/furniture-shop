@@ -35,7 +35,7 @@ export default {
     return {
       productPopup: false,
       pageNumber: 0,
-      size: 8,
+      size: 24,
     }
   },
   watch: {
