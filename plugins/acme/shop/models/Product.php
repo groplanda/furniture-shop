@@ -22,6 +22,8 @@ class Product extends Model
      */
     public $table = 'acme_shop_product';
 
+    protected $jsonable = ['props'];
+
     /**
      * @var array Validation rules
      */

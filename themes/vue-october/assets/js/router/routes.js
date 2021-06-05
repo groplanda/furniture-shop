@@ -8,6 +8,7 @@ import Checkout from '@vue/page/Checkout'
 import Post from '@vue/page/Post'
 import Category from '@vue/page/Category'
 import Product from '@vue/page/Product'
+import Tag from '@vue/page/Tag'
 
 Vue.use(Router);
 let router = new Router({
@@ -51,7 +52,7 @@ let router = new Router({
         {
           path: '/tag/:slug',
           name: 'tag',
-          component: Category
+          component: Tag
         }
     ]
 });

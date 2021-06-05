@@ -6,6 +6,7 @@ use Cms\Models\ThemeData;
 use RainLab\Pages\Classes\Menu as PagesMenu;
 use Cms\Classes\Theme;
 use Acme\Settings\Models\Slider;
+use Acme\Settings\Models\Testimonial;
 
 Route::prefix('/api')->group(function () {
   Route::get('/new-products', function () {
@@ -37,11 +38,17 @@ Route::prefix('/api')->group(function () {
   Route::get('/category/{slug}', function ($slug) {
     return Category::where('slug', $slug)->with(['products'])->first();
   });
+  Route::get('/tag/{slug}', function ($slug) {
+    return Tag::where('slug', $slug)->with(['products'])->first();
+  });
   Route::get('/product/{id}', function ($id) {
     return Product::with(['categories', 'gallery', 'tags'])->where('id', $id)->first();
   });
   Route::get('/slider', function () {
     return Slider::orderBy('sort_order', 'asc')->get();
+  });
+  Route::get('/testimonials', function () {
+    return Testimonial::orderBy('sort_order', 'asc')->get();
   });
   Route::post('/send-message', 'Acme\Shop\Classes\OrderController@send');
   // Route::get('/post/{name}', 'Acme\Setting\Classes\Posts@getPost');

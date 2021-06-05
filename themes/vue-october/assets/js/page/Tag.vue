@@ -19,12 +19,12 @@ export default {
   watch: {
     $route (to){
       this.slug = to.params.slug;
-      this.fetchCategory(this.slug);
+      this.fetchTags(this.slug);
     }
   },
   methods: {
-    fetchCategory(slug) {
-      axios.get("/api/category/" + slug)
+    fetchTags(slug) {
+      axios.get("/api/tag/" + slug)
       .then(response => {
         this.category = response.data
       })
@@ -35,7 +35,7 @@ export default {
   },
   created() {
     this.slug = this.$route.params.slug;
-    this.fetchCategory(this.slug);
+    this.fetchTags(this.slug);
   }
 }
 </script>

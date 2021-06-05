@@ -31,6 +31,11 @@
                 :key="category.slug")._categories-link {{ category.title }}
             ._code(v-if="product.code") Артикул {{ product.code }}
 
+            ._props.-full(v-if="product.props && product.props.length")
+              ._props-row(v-for="(prop, index) in product.props" :key="index")
+                ._props-label {{ prop.props_option }}
+                ._props-val  {{ prop.props_value }}
+
             ._entry.-desktop(v-if="product.description")
               ._entry-title Описание
               ._entry-descr(v-html="product.description")
@@ -63,6 +68,10 @@
                 | В корзину
                 icon(name="cart" component="header")._add-ico
 
+            ._props.-mobile(v-if="product.props && product.props.length")
+              ._props-row(v-for="(prop, index) in product.props" :key="index")
+                ._props-label {{ prop.props_option }}
+                ._props-val  {{ prop.props_value }}
 
             ._entry.-mobile(v-if="product.description")
               ._entry-title Описание
@@ -426,6 +435,47 @@ export default {
     @media(max-width: 767px) {
       margin: 15px 0;
     }
+  }
+
+  &__props {
+
+    &--full {
+      @media(max-width: 1440px) {
+        display: none;
+      }
+    }
+
+    &--mobile {
+      display: none;
+      @media(max-width: 1440px) {
+        margin-top: 30px;
+        display: block;
+      }
+    }
+  }
+
+  &__props-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    @media(max-width: 767px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__props-label {
+    font-size: 15px;
+    color: $primary;
+    opacity: 0.6;
+    padding-right: 25px;
+    min-width: 100px;
+  }
+
+  &__props-val {
+    font-weight: 500;
+    font-size: 15px;
+    color: $primary;
   }
 
   &__entry {

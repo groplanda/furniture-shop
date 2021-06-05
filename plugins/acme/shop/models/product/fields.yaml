@@ -75,3 +75,23 @@ tabs:
             span: full
             type: relation
             tab: Теги
+        props:
+            label: Опции
+            prompt: 'Добавить опции'
+            style: collapsed
+            span: full
+            type: repeater
+            tab: Опции
+            form:
+                fields:
+                    props_option:
+                        label: Опция
+                        span: auto
+                        placeholder: Высота
+                        type: text
+                        comment: 'Например высота'
+                    props_value:
+                        label: 'Значение опции'
+                        span: auto
+                        placeholder: 120см
+                        type: text

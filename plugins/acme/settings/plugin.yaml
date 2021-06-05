@@ -9,3 +9,12 @@ navigation:
         label: Настройки
         url: acme/settings/sliders
         icon: icon-cog
+        sideMenu:
+            item-slider:
+                label: Слайдер
+                url: acme/settings/sliders
+                icon: icon-sliders
+            item-testimonial:
+                label: Отзывы
+                url: acme/settings/testimonials
+                icon: icon-wechat

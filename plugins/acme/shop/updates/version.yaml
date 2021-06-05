@@ -24,3 +24,6 @@
 1.0.9:
     - 'Updated table acme_shop_categories'
     - builder_table_update_acme_shop_categories.php
+1.0.10:
+    - 'Updated table acme_shop_product'
+    - builder_table_update_acme_shop_product.php

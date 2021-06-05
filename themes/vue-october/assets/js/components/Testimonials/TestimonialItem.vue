@@ -1,12 +1,12 @@
 <template lang="pug">
   .testimonial-item
     ._avatar
-      img(:src="testimonial.avatar", :alt="testimonial.name")._avatar-thumb
+      img(:src="'/storage/app/media' + testimonial.avatar", :alt="testimonial.title")._avatar-thumb
     ._group
       icon(name="quote" component="testimonial")._quote
-      ._time {{ testimonial.date }}
-      ._name {{ testimonial.name }}
-      ._text {{ testimonial.message }}
+      ._time {{ time }}
+      ._name {{ testimonial.title }}
+      ._text {{ testimonial.description }}
 
 </template>
 <script>
@@ -16,6 +16,20 @@ export default {
     testimonial: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    time() {
+      const date = new Date(this.testimonial.date);
+      return this.addZero(date.getDate()) + '.' + this.addZero(date.getMonth()) + '.' + date.getFullYear();
+    }
+  },
+  methods: {
+    addZero(number) {
+      if (number < 10) {
+        return '0' + number
+      }
+      return number;
     }
   }
 }
