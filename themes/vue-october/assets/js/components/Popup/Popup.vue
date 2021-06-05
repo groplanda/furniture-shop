@@ -79,6 +79,7 @@ export default {
     align-items: center;
     justify-content: center;
     transition: all .3s ease;
+    border-radius: 20px;
 
     @media(max-width: 430px) {
       max-width: calc(100% - 15px);

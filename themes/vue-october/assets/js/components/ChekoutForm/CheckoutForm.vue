@@ -14,6 +14,7 @@
             type="tel"
             v-model="form.user_phone"
             placeholder="Телефон*"
+            v-mask="'+7 (###) ###-##-##'"
             :class="{ 'checkout-form__input--error': phoneErr }")._input
           span._error( v-if="phoneErr") {{ phoneErr }}
         ._group
@@ -147,18 +148,39 @@ export default {
   width: 100%;
   max-width: calc(100% - 445px);
 
+  @media(max-width: 1440px) {
+    max-width: calc(100% - 370px);
+  }
+
+  @media(max-width: 1199px) {
+    max-width: calc(100% - 340px);
+  }
+
+  @media(max-width: 767px) {
+    max-width: 100%;
+  }
+
   $root: &;
 
   &__inner {
     background: #f8f8f8;
     padding: 40px;
     border-radius: 20px;
+
+    @media(max-width: 767px) {
+      padding: 12px;
+      border-radius: 7px;
+    }
   }
 
   &__row {
     display: flex;
     flex-wrap: wrap;
     margin: 0 -10px 30px -10px;
+
+    @media(max-width: 991px) {
+      margin: 0 0 30px 0;
+    }
   }
 
   &__group {
@@ -169,6 +191,10 @@ export default {
 
     &--full {
       max-width: calc(100% - 20px);
+    }
+
+    @media(max-width: 991px) {
+      max-width: 100%;
     }
   }
 
@@ -197,6 +223,11 @@ export default {
       resize: none;
       padding: 12px 20px;
     }
+
+    @media(max-width: 767px) {
+      height: 40px;
+      border-width: 1px;
+    }
   }
 
   &__error {
@@ -204,6 +235,10 @@ export default {
     font-size: 13px;
     line-height: 21px;
     font-weight: 500;
+    @media(max-width: 767px) {
+      font-size: 12px;
+      line-height: 18px;
+    }
   }
 
   &__btn {

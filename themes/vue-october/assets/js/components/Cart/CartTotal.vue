@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cart-total
+  .cart-total(:class="{ 'cart-total--checkout': className === 'checkout' }")
     ._title Расчет
     icon(name="calc" component="cart")._title-ico
     ._item
@@ -33,6 +33,10 @@ export default {
     showBtn: {
       type: Boolean,
       default: true
+    },
+    className: {
+      type: String,
+      default: "default"
     }
   },
   computed: {
@@ -75,7 +79,7 @@ export default {
   border-radius: 20px;
   padding: 40px;
   background: $dark;
-  box-shadow: $shadow-dark2;
+  box-shadow: 7px 7px 30px $shadow-dark2;
   position: relative;
 
   $root: &;
@@ -92,6 +96,21 @@ export default {
 
   @media(max-width: 767px) {
     padding: 15px;
+  }
+
+  &--checkout {
+    @media(max-width: 1440px) {
+      max-width: 345px;
+      margin-left: 25px;
+    }
+    @media(max-width: 1199px) {
+      max-width: 325px;
+      margin-left: 15px;
+    }
+    @media(max-width: 767px) {
+      max-width: 100%;
+      margin-left: 0;
+    }
   }
 
   &__title {

@@ -5,7 +5,7 @@
         ._title Оформление заказа
       ._row
         CheckoutForm(:products="products" @hideTotal="showCartTotal = false")
-        CartTotal(v-if="showCartTotal" :products="products" :showBtn="false")
+        CartTotal(v-if="showCartTotal" :products="products" :showBtn="false" className="checkout")
 
 </template>
 <script>

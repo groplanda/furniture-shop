@@ -6,25 +6,19 @@
       ._title Остались вопросы?
       button(type="button" @click="popup = true")._btn Напишите нам
     Popup(v-if="popup" @close="popup = false")
-      form._form
-        ._form-title Остались вопросы?
-        ._form-group
-          label._form-label Имя
-            span._form-mark *
-          input(type="text" name="name" placeholder="")._form-input
-        ._form-group
-          label._form-label Телефон
-            span._form-mark *
-          input(type="tel" name="name" placeholder="")._form-input
-        button(type="submit")._btn.-submit Отправить
+      ._form-title Остались вопросы?
+      ContactForm
 
 </template>
 <script>
-import Popup from '@vue/components/Popup/Popup.vue'
+import Popup from '@vue/components/Popup/Popup';
+import ContactForm from '@vue/components/ContactForm/ContactForm';
+
 export default {
   name: "QuestionForm",
   components: {
-    Popup
+    Popup,
+    ContactForm
   },
   data() {
     return {
@@ -117,6 +111,13 @@ export default {
     }
   }
 
+  &__form-title {
+    font-weight: bold;
+    font-size: 26px;
+    color: #fff;
+    padding: 0 30px 40px 0;
+  }
+
   &__btn {
     margin: 20px 40px;
     font-weight: 600;
@@ -142,59 +143,6 @@ export default {
 
     @media(max-width: 575px) {
       margin: 0;
-    }
-
-    &--submit {
-      margin: 0;
-    }
-  }
-
-  &__form-title {
-    font-weight: bold;
-    font-size: 26px;
-    color: #fff;
-    padding: 0 30px 40px 0;
-  }
-
-  &__form-group {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  &__form-label {
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    padding-bottom: 10px;
-    margin: 0;
-    display: flex;
-  }
-
-  &__form-mark {
-    color: #ff5640;
-    margin-left: 4px;
-  }
-
-  &__form-input {
-    font-size: 16px;
-    color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: transparent;
-    box-shadow: none;
-    border-radius: 10px;
-    padding: 12px 28px;
-    width: 100%;
-    height: auto;
-    outline: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    transition: all 0.18s linear;
-
-    &:hover, &:focus {
-      color: #fff;
-      border-color: transparent;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: none;
     }
   }
 

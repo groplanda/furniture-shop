@@ -39,23 +39,18 @@
           ._form-inner
             ._title.-form Оставьте заявку!
             icon(name="envelope" component="footer")._form-ico
-            form._form-row
-              ._form-group
-                label._form-label Имя
-                  span._form-mark *
-                input(type="text" name="name" placeholder="")._form-input
-              ._form-group
-                label._form-label Телефон
-                  span._form-mark *
-                input(type="tel" name="name" placeholder="")._form-input
-              button(type="submit")._form-submit Отправить
+            ContactForm(className="footer")
 
 </template>
 <script>
 import { formattedPhone } from '@vue/helpers/formatted.js';
+import ContactForm from '@vue/components/ContactForm/ContactForm.vue';
 
 export default {
   name: "Footer",
+  components: {
+    ContactForm
+  },
   props: {
     settings: {
       type: Object,
