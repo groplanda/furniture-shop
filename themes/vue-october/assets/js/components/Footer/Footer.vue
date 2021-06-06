@@ -10,10 +10,11 @@
             ._site-descr Магазин мебели
             ._site-copy © 2021. All rights reserved
           ._nav
+            router-link(:to="{name: 'home'}")._nav-link Главная
             router-link(
-              :to="item.url"
-              v-for="(item, index) in footerNav"
-              :key="index")._nav-link {{ item.text }}
+              :to="link.url"
+              v-for="(link, index) in navbar"
+              :key="index")._nav-link {{ link.title }}
           ._feedback
             ._contacts
               ._title Контакты
@@ -57,6 +58,12 @@ export default {
       default() {
         return {}
       }
+    },
+    navbar: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   methods: {
@@ -66,15 +73,7 @@ export default {
   },
   data() {
     return {
-      phones: [],
-      footerNav: [
-        { url: '#!', text: 'Главная' },
-        { url: '#!', text: 'О компании' },
-        { url: '#!', text: 'Каталог' },
-        { url: '#!', text: 'Акции' },
-        { url: '#!', text: 'Оплата' },
-        { url: '#!', text: 'Контакты' }
-      ]
+      phones: []
     }
   }
 }

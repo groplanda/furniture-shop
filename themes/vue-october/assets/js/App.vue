@@ -4,7 +4,7 @@
     FixedPanel(:navbar="navbar")
     .wrapper__container
       router-view
-    Footer(:settings="settings")
+    Footer(:settings="settings" :navbar="navbar")
 </template>
 
 <script>
