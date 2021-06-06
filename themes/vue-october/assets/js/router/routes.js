@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@vue/page/Home'
-import About from '@vue/page/About'
 import Cart from '@vue/page/Cart'
 import Checkout from '@vue/page/Checkout'
 import Post from '@vue/page/Post'
@@ -20,9 +19,9 @@ let router = new Router({
           component: Home
         },
         {
-          path: '/about',
-          name: 'about',
-          component: About
+          path: '/post/:slug',
+          name: 'post',
+          component: Post
         },
         {
           path: '/cart',
@@ -33,11 +32,6 @@ let router = new Router({
           path: '/checkout',
           name: 'checkout',
           component: Checkout
-        },
-        {
-          path: '/post/:slug',
-          name: 'post',
-          component: Post
         },
         {
           path: '/category/:slug',

@@ -1,10 +1,14 @@
 description = "Default layout"
+
+[staticPage]
+useContent = 1
+default = 0
 ==
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Vue October - {{ this.page.title }}</title>
+        <title>{{ this.theme.site_name }} - {{ this.page.title }}</title>
         <meta name="description" content="{{ this.page.meta_description }}">
         <meta name="title" content="{{ this.page.meta_title }}">
         <meta name="author" content="OctoberCMS">
@@ -20,6 +24,9 @@ description = "Default layout"
 
         <div id="app">
           <App />
+        </div>
+        <div data-post>
+            {% component 'staticPage' %}
         </div>
 
         <!-- Scripts -->

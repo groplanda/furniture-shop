@@ -6,7 +6,7 @@
           ._item-image
             img(:src="'/storage/app/media' + cat.image", :alt="cat.title")._item-thumb
           ._item-title {{ cat.title }}
-          ._item-count(v-if="cat.products_count") {{ cat.products_count }}
+          ._item-count(v-if="+cat.products_count !== 0") {{ cat.products_count }}
           router-link(:to="{ name: 'category', params: { slug: cat.slug }}")._item-link
 
 </template>
@@ -141,7 +141,7 @@ export default {
 
   &__item-title {
     font-weight: bold;
-    font-size: 35px;
+    font-size: 28px;
     color: #fff;
     position: absolute;
     bottom: 40px;
@@ -151,13 +151,13 @@ export default {
     @media(max-width: 1740px) {
       left: 30px;
       right: 30px;
-      font-size: 30px;
+      font-size: 24px;
     }
 
     @media(max-width: 767px) {
       left: 20px;
       right: 20px;
-      font-size: 25px;
+      font-size: 18px;
       padding-right: 20px;
     }
   }

@@ -7,7 +7,11 @@ import 'swiper/swiper-bundle.css';
 import VueMask from 'v-mask';
 
 Vue.component('icon', Icon);
-Vue.use(VueMask)
+Vue.use(VueMask);
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelector("[data-post]").remove();
+})
 
 new Vue({
   el: '#app',

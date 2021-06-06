@@ -10,7 +10,7 @@
               ._tag.-new(v-if="product.is_new") New
               ._tag.-sale(v-if="product.sale_price") Sale
             ._slider-current
-              img(:src="currentImage", :alt="product.title")._slider-image
+              img(:src="currentImage ? currentImage : noImage", :alt="product.title")._slider-image
             ._slider-additional(v-if="product.gallery && product.gallery.length")
               ._slider-thumb(
                   :class="{'product__slider-thumb--active': currentImage === '/storage/app/media' + product.image}"
@@ -132,7 +132,8 @@ export default {
     return {
       currentImage: "",
       amount: 1,
-      productPopup: false
+      productPopup: false,
+      noImage: "/themes/vue-october/assets/images/no-image.jpg"
     }
   },
   watch: {

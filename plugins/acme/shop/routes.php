@@ -55,4 +55,5 @@ Route::prefix('/api')->group(function () {
   Route::get('/gallery/{page}', function ($page) {
     return Gallery::with(['images'])->where('page', $page)->first();
   });
+  Route::get('/post/{name}', 'Acme\Shop\Classes\Posts@getPost');
 });

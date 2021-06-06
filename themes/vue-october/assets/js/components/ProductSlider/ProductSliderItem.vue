@@ -7,7 +7,7 @@
         ._tag.-sale(v-if="product.sale_price") Sale
       ._image
         router-link(:to="{ name: 'product', params: { id: product.id }}")._link
-          img(:src="'/storage/app/media' + product.image", :alt="product.title")._image-thumb
+          img(:src="product.image ? '/storage/app/media' + product.image : noImage", :alt="product.title")._image-thumb
       ._order
         button(type="submit")._order-btn
           icon(name="cart" component="header")._order-ico
@@ -44,6 +44,7 @@
 
 </template>
 <script>
+
 export default {
   name: "ProductSliderItem",
   props: {
@@ -55,6 +56,7 @@ export default {
   data() {
     return {
       amount: 1,
+      noImage: "/themes/vue-october/assets/images/no-image.jpg"
     }
   },
   computed: {
@@ -63,7 +65,7 @@ export default {
         return (this.product.sale_price).toLocaleString('ru')
       }
       return (this.product.price).toLocaleString('ru')
-    },
+    }
   },
   methods: {
     changeAmount(e) {

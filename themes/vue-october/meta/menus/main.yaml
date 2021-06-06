@@ -1,37 +1,18 @@
 items:
     -
         title: 'О компании'
-        nesting: 0
-        type: static-page
-        url: null
+        type: url
+        url: /post/about
         code: post
-        reference: about
-        cmsPage: null
-        replace: 0
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
     -
         title: Контакты
-        nesting: 0
-        type: static-page
-        url: null
+        type: url
+        url: /post/contacts
         code: post
-        reference: contacts
-        cmsPage: null
-        replace: 0
-        viewBag:
-            isHidden: '0'
-            cssClass: ''
-            isExternal: '0'
-    -
-        title: Услуги
-        nesting: 0
-        type: static-page
-        code: ''
-        reference: uslugi
-        replace: 0
         viewBag:
             isHidden: '0'
             cssClass: ''

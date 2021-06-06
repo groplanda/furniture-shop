@@ -26,8 +26,10 @@
           ._logo-info Магазин мебели
 
         nav._nav
-          ._nav-item(v-for="(link, idx) in links")
-            router-link(:to="link.url")._nav-link {{ link.text }}
+          ._nav-item
+            router-link(:to="{name: 'home'}")._nav-link Главная
+          ._nav-item(v-for="(link, idx) in links" :key="idx")
+            router-link(:to="link.url")._nav-link {{ link.title }}
 
         ._contacts
           ._address.-top(v-if="settings.address")
@@ -98,25 +100,18 @@ export default {
     return {
       popup: false,
       showPopup: false,
-      links: [
-        { url: '#!', text: 'Главная' },
-        { url: '#!', text: 'О компании' },
-        { url: '#!', text: 'Каталог' },
-        { url: '#!', text: 'Акции' },
-        { url: '#!', text: 'Оплата' },
-        { url: '#!', text: 'Контакты' }
-      ]
     }
   },
   computed: {
     cart() {
       const cart = this.$store.getters.getCart;
-
       if (cart.length > 0) {
         return cart.reduce((sum, el) => sum + el.amount, 0);
       }
-
       return 0;
+    },
+    links() {
+      return this.$store.getters.getNavbar;
     }
   },
   methods: {

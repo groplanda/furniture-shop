@@ -9,7 +9,7 @@ import axios from 'axios';
 Vue.use(Vuex)
 
 class Settings {
-  constructor(siteName, phone, email, address, whatsapp, ok, vk, instagram, logo, banners) {
+  constructor(siteName, phone, email, address, whatsapp, ok, vk, instagram, logo, banners, aboutText, aboutLink) {
     this.siteName = siteName;
     this.phone = phone;
     this.email = email;
@@ -20,6 +20,8 @@ class Settings {
     this.instagram = instagram;
     this.siteLogo = logo;
     this.banners = banners;
+    this.aboutText = aboutText;
+    this.aboutLink = aboutLink
   }
 }
 
@@ -27,7 +29,8 @@ export default new Vuex.Store({
   state: {
     loading: false,
     settings: {},
-    fixedPanel: false
+    fixedPanel: false,
+    post: null
   },
   getters: {
     getLoading(state) {
@@ -38,6 +41,9 @@ export default new Vuex.Store({
     },
     getPanelStatus(state) {
       return state.fixedPanel;
+    },
+    getPost(state) {
+      return state.post;
     }
   },
   mutations: {
@@ -49,6 +55,9 @@ export default new Vuex.Store({
     },
     SET_FIXEDPANEL_STATUS(state, payload) {
       state.fixedPanel = payload;
+    },
+    SET_POST(state, payload) {
+      state.post = payload;
     }
   },
   actions: {
@@ -61,7 +70,7 @@ export default new Vuex.Store({
         const data = response.data.data;
         const phone = JSON.parse(data.phone);
         const banners = JSON.parse(data.banners);
-        const settings = new Settings(data.site_name, phone, data.t_email,  data.address, data.whatsapp, data.ok, data.vk, data.instagram, data.site_logo, banners)
+        const settings = new Settings(data.site_name, phone, data.t_email,  data.address, data.whatsapp, data.ok, data.vk, data.instagram, data.site_logo, banners, data.about_text, data.about_link)
         commit("SET_SETTINGS", settings);
       })
       .catch(err => {
@@ -70,6 +79,15 @@ export default new Vuex.Store({
     },
     setFixedPanelStatus({ commit }, data) {
       commit("SET_FIXEDPANEL_STATUS", data);
+    },
+    fetchPost( {commit}, data ) {
+      axios.get(`/api/post/${data}`)
+      .then(response => {
+        commit("SET_POST", response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   },
   modules: {

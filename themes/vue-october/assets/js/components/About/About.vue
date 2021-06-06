@@ -2,10 +2,8 @@
   section.about
     ._content
       ._content-title О компании
-      ._content-body
-        p Вы являетесь производителем мебели и Вам для представления товаров необходим интернет-магазин, но у Вас нет времени на длительный процесс создания интернет ресурса на заказ в веб-студии?
-        p Компания MegaGroup предлагает купить интернет-магазин мебели на основе готового решения! Купив готовый интернет ресурс у нас, Вы сможете в короткие сроки и по доступной цене запустить свое виртуальное представительство в Сеть Интернет и наблюдать как растут Ваши доходы от продаж!
-      router-link(to="#!")._content-link Читать дальше
+      ._content-body(v-html="about.aboutText")
+      router-link(:to="about.aboutLink" v-if="about.aboutLink")._content-link Читать дальше
     ._gallery
       ._gallery-inner
         VueGallery(:images="images" :index="index" @close="index = null")
@@ -19,7 +17,7 @@
 </template>
 <script>
 import axios from "axios";
-import VueGallery from 'vue-gallery';
+import VueGallery from "vue-gallery";
 
 export default {
   name: "About",
@@ -30,6 +28,11 @@ export default {
     return {
       index: null,
       images: []
+    }
+  },
+  computed: {
+    about() {
+      return this.$store.getters.getSettings;
     }
   },
   methods: {

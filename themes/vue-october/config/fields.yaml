@@ -115,3 +115,20 @@ tabs:
               imageWidth: 75
               span: storm
               cssClass: col-md-12
+      about_section:
+        label: О компании
+        type: section
+        tab: Общие
+      about_text:
+        type: richeditor
+        size: large
+        label: Текст о компании
+        span: storm
+        cssClass: col-md-12
+        tab: Общие
+      about_link:
+        type: text
+        label: Ссылка о компании
+        span: storm
+        cssClass: col-md-12
+        tab: Общие
