@@ -4,6 +4,7 @@
 <script>
 import axios from "axios";
 import CategoryComponent from '@vue/components/Category/CategoryComponent';
+import setTitle from '@vue/helpers/setTitle.js';
 
 export default {
   name: "Category",
@@ -36,6 +37,9 @@ export default {
   created() {
     this.slug = this.$route.params.slug;
     this.fetchCategory(this.slug);
+  },
+  updated() {
+    setTitle(this.category);
   }
 }
 </script>

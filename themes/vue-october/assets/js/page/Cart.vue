@@ -10,7 +10,7 @@
       ._empty(v-else)
         ._empty-inner
           ._empty-text Корзина пуста!
-          router-link(to="#!")._empty-link Вернуться на главную
+          router-link(:to="{ name: 'home' }")._empty-link Вернуться на главную
 
 </template>
 <script>

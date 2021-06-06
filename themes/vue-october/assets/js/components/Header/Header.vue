@@ -28,7 +28,7 @@
         nav._nav
           ._nav-item
             router-link(:to="{name: 'home'}")._nav-link Главная
-          ._nav-item(v-for="(link, idx) in links" :key="idx")
+          ._nav-item(v-for="(link, idx) in navbar" :key="idx")
             router-link(:to="link.url")._nav-link {{ link.title }}
 
         ._contacts
@@ -109,9 +109,6 @@ export default {
         return cart.reduce((sum, el) => sum + el.amount, 0);
       }
       return 0;
-    },
-    links() {
-      return this.$store.getters.getNavbar;
     }
   },
   methods: {
@@ -249,6 +246,9 @@ export default {
     max-width: 100%;
     height: 75px;
     max-height: 75px;
+    @media(max-width: 767px) {
+      margin: 0 auto;
+    }
   }
 
   &__logo-name {

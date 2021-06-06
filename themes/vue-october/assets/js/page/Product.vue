@@ -125,6 +125,7 @@
 </template>
 <script>
 const Sticky = require('sticky-js');
+import setTitle from '@vue/helpers/setTitle.js';
 
 export default {
   name: "Product",
@@ -191,6 +192,9 @@ export default {
   mounted() {
     const sticky = new Sticky('[data-js="sticky"]');
     sticky.update();
+  },
+  updated() {
+    setTitle(this.product);
   }
 }
 </script>

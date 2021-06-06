@@ -21,6 +21,11 @@
                 ._menu-item(v-for="category in categories" :key="category.id")
                   router-link(:to="{ name: 'category', params: { slug: category.slug }}" @click="togglePanel")._menu-link {{ category.title }}
                   icon(name="arrow" component="fixed-panel")._menu-ico
+              ._menu-title.-mobile Меню
+              ._menu-list.-mobile
+                ._menu-item(v-for="(nav, index) in navbar" :key="index")
+                  router-link(:to="nav.url" @click="togglePanel")._menu-link {{ nav.title }}
+                  icon(name="arrow" component="fixed-panel")._menu-ico
 
 
 
@@ -328,6 +333,22 @@ export default {
       padding: 20px;
     }
 
+    &--mobile {
+      display: none;
+      @media(max-width: 767px) {
+        display: block;
+      }
+    }
+
+  }
+
+  &__menu-list {
+    &--mobile {
+      display: none;
+      @media(max-width: 767px) {
+        display: block;
+      }
+    }
   }
 
   &__menu-item {

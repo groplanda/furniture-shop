@@ -81,8 +81,8 @@ export default {
 
   &__item {
     color: #fff;
-    font-size: 15px;
-    padding: 11px 20px;
+    font-size: 14px;
+    padding: 8px 10px;
     margin: 5px;
     font-weight: 600;
     border-radius: 10px;
@@ -97,13 +97,12 @@ export default {
     }
 
     @media(max-width: 1740px) {
-      font-size: 14px;
-      padding: 10px 15px;
+      font-size: 13px;
     }
 
     @media(max-width: 575px) {
-      font-style: 13px;
-      padding: 7px 12px;
+      font-style: 12px;
+      padding: 7px 10px;
       margin: 3px;
       border-radius: 5px;
     }

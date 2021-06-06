@@ -13,7 +13,7 @@ class Posts extends Controller {
   public function getPost($name) {
 
     $router = new Router(Theme::getActiveTheme());
-    $this->pageObject = $router->findByUrl($name);
+    $this->pageObject = $router->findByUrl("/post/$name");
 
     if($this->pageObject) {
       $this->title = array_get($this->pageObject->viewBag, 'title');

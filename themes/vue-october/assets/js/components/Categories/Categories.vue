@@ -4,7 +4,7 @@
       ._row
         ._item(v-for="cat in categories" :key="cat.id")
           ._item-image
-            img(:src="'/storage/app/media' + cat.image", :alt="cat.title")._item-thumb
+            img(:src="cat.image ? '/storage/app/media' + cat.image : noImage", :alt="cat.title")._item-thumb
           ._item-title {{ cat.title }}
           ._item-count(v-if="+cat.products_count !== 0") {{ cat.products_count }}
           router-link(:to="{ name: 'category', params: { slug: cat.slug }}")._item-link
@@ -14,12 +14,14 @@
 export default {
   name: "Categories",
   data() {
-    return {}
+    return {
+      noImage: "/themes/vue-october/assets/images/no-image.jpg"
+    }
   },
   computed: {
     categories() {
       const cats = this.$store.getters.getCategories
-      return cats.slice(0, 5);
+      return cats.slice(0, 6);
     }
   }
 }

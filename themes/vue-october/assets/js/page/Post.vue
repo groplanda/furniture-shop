@@ -1,18 +1,18 @@
 <template lang="pug">
-  section.post.section
+  section.post.section(v-if="post")
     ._container.container.container--main
       ._heading
-        ._title
-      ._body
+        ._title {{ post.title }}
+      ._body(v-html="post.content" v-if="post.content")
 </template>
 <script>
+import setTitle from '@vue/helpers/setTitle.js';
 export default {
   name: "Post",
   watch: {
     $route (to){
       const slug = to.params.slug;
-      console.log(slug);
-      // this.$store.dispatch("fetchProductById", slug);
+      this.$store.dispatch("fetchPost", slug);
     }
   },
   computed: {
@@ -28,6 +28,9 @@ export default {
   created() {
     const slug = this.$route.params.slug
     this.fetchPost(slug);
+  },
+  updated() {
+    setTitle(this.post);
   }
 }
 </script>
@@ -51,7 +54,6 @@ export default {
     font-weight: bold;
     font-size: 50px;
     color: $primary;
-    margin-bottom: 45px;
 
     @media(max-width: 1440px) {
       font-size: 45px;
@@ -59,7 +61,6 @@ export default {
 
     @media(max-width: 1199px) {
       font-size: 40px;
-      margin-bottom: 30px;
     }
 
     @media(max-width: 991px) {
@@ -79,6 +80,10 @@ export default {
     color: $dark;
     font-size: 16px;
     line-height: 21px;
+
+    p {
+      margin-bottom: 15px;
+    }
 
     @media(max-width: 767px) {
       font-size: 14px;

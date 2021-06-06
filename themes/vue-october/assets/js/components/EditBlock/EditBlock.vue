@@ -3,10 +3,10 @@
     ._row
       ._item(v-for="(block, index) in blocks" :key="index")
         ._item-image
-          img(:src="block.img", alt="alt")._item-thumb
+          img(:src="block.img", :alt="block.title")._item-thumb
         ._item-title {{ block.title }}
         ._item-row
-          router-link(:to="block.url")._item-link В каталог
+          router-link(:to="{ name: 'category', params: { slug: block.url }}")._item-link В каталог
             icon(name="control-prev" component="banner")._item-ico
           ._item-label(v-if="block.label") {{ block.label }}
 
@@ -17,8 +17,8 @@ export default {
   data() {
     return {
       blocks: [
-        { img: "http://furniture-salon.oml.ru/thumb/2/kHIvAklQEe9oktbkbMb8zQ/900r/d/b_1.png", title: "Мебель для дома!", url: "#!", label: "до - 20%" },
-        { img: "http://furniture-salon.oml.ru/thumb/2/GF2Na4Xhy5-k3uEEuvD21Q/900r/d/b_2.png", title: "Все для офиса!", url: "#!", label: false }
+        { img: "/themes/vue-october/assets/images/b_1.png", title: "Мебель для дома!", url: "mebel-dlya-spalen", label: "до - 20%" },
+        { img: "/themes/vue-october/assets/images/b_2.png", title: "Все для офиса!", url: "mebel-dlya-ofisa", label: false }
       ]
     }
   }
