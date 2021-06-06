@@ -23,6 +23,9 @@
                   icon(name="arrow" component="fixed-panel")._menu-ico
               ._menu-title.-mobile Меню
               ._menu-list.-mobile
+                ._menu-item
+                  router-link(:to="{name: 'home'}" @click="togglePanel")._menu-link Главная
+                   icon(name="arrow" component="fixed-panel")._menu-ico
                 ._menu-item(v-for="(nav, index) in navbar" :key="index")
                   router-link(:to="nav.url" @click="togglePanel")._menu-link {{ nav.title }}
                   icon(name="arrow" component="fixed-panel")._menu-ico
