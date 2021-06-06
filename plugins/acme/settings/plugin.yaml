@@ -18,3 +18,7 @@ navigation:
                 label: Отзывы
                 url: acme/settings/testimonials
                 icon: icon-wechat
+            item-image:
+                label: Галерея
+                url: acme/settings/galleries
+                icon: icon-image

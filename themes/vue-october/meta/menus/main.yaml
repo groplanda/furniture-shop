@@ -1,10 +1,12 @@
 items:
     -
         title: 'О компании'
-        nesting: 1
+        nesting: 0
         type: static-page
-        code: ''
+        url: null
+        code: post
         reference: about
+        cmsPage: null
         replace: 0
         viewBag:
             isHidden: '0'
@@ -12,10 +14,23 @@ items:
             isExternal: '0'
     -
         title: Контакты
-        nesting: 1
+        nesting: 0
+        type: static-page
+        url: null
+        code: post
+        reference: contacts
+        cmsPage: null
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: Услуги
+        nesting: 0
         type: static-page
         code: ''
-        reference: contacts
+        reference: uslugi
         replace: 0
         viewBag:
             isHidden: '0'

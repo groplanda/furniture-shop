@@ -36,6 +36,11 @@ export default {
       cartProduct: this.products
     }
   },
+  watch: {
+    products() {
+      this.cartProduct = this.products;
+    }
+  },
   methods: {
     deleteProduct(id) {
       const productIndex = this.cartProduct.findIndex(el => el.id === id);

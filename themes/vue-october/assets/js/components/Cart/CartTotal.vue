@@ -19,7 +19,7 @@
         ._item-curency руб.
 
     button(v-if="showBtn" type="button" @click="$router.push({ name: 'checkout' })")._order Сделать заказ
-    button(v-else type="button" @click="$router.push({ name: 'cart' })")._order Вернуть в корзину
+    button(v-else type="button" @click="$router.push({ name: 'cart' })")._order Назад в корзину
 
 </template>
 <script>

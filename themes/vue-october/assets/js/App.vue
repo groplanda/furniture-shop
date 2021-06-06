@@ -1,7 +1,7 @@
 <template lang="pug">
   .wrapper(:class="{ 'wrapper--active': activeWrapper }")
-    Header(:settings="settings")
-    FixedPanel
+    Header(:settings="settings" :navbar="navbar")
+    FixedPanel(:navbar="navbar")
     .wrapper__container
       router-view
     Footer(:settings="settings")
@@ -25,6 +25,9 @@ export default {
     },
     activeWrapper() {
       return this.$store.getters.getPanelStatus;
+    },
+    navbar() {
+      return this.$store.getters.getNavbar;
     }
   },
   watch: {
@@ -32,10 +35,17 @@ export default {
       this.activeWrapper
       ? document.body.classList.add("open-modal")
       : document.body.classList.remove("open-modal");
+    },
+    $route() {
+      this.$el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
     }
   },
   created() {
     this.$store.dispatch("fetchCategories");
+    this.$store.dispatch("fetchNavbar");
     this.$store.dispatch("fetchSettings");
     if (localStorage.getItem('cart')) {
       this.$store.dispatch("fillCart" , JSON.parse(localStorage.getItem('cart')));

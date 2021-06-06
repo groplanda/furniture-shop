@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import cart from './cart';
 import product from './product';
 import category from './category';
+import navbar from './navbar';
 import axios from 'axios';
 
 Vue.use(Vuex)
@@ -74,6 +75,7 @@ export default new Vuex.Store({
   modules: {
     cart,
     product,
-    category
+    category,
+    navbar
   }
 })

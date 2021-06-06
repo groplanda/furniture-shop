@@ -28,6 +28,14 @@
 <script>
 export default {
   name: "FixedPanel",
+  props: {
+    navbar: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   watch: {
     $route (){
       if(this.showPanel) this.togglePanel();

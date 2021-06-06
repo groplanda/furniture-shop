@@ -57,7 +57,7 @@ export default {
 
       this.setSubmitStatus("Отправка формы...");
 
-      axios.post('api/send-message', this.form)
+      axios.post('/api/send-message', this.form)
         .then(response => {
           let message = ''
           const data = response.data;

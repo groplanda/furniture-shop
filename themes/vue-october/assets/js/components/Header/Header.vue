@@ -1,5 +1,8 @@
 <template lang="pug">
   header.header.section
+    Popup(v-if="popup" @close="popup = false")
+      ._form-title Заказать звонок
+      ContactForm
     ._container.container
       ._row.-mobile
         button._burg(@click="openNav")
@@ -62,25 +65,38 @@
                 a(:href="'whatsapp://send?phone=+' + settings.whatsapp" v-if="settings.whatsapp && settings.whatsapp.length > 0" target="_blank")._social-link
                   icon(name="whatsapp" component="header")._social-ico
 
-            button(type="button")._btn Заказать звонок
+            button(type="button" @click="popup = true")._btn Заказать звонок
 
 
 
 </template>
 <script>
 import { formattedPhone } from '@vue/helpers/formatted.js';
+import Popup from '@vue/components/Popup/Popup';
+import ContactForm from '@vue/components/ContactForm/ContactForm';
 export default {
   name: "Header",
+  components: {
+    Popup,
+    ContactForm
+  },
   props: {
     settings: {
       type: Object,
       default() {
         return {}
       }
+    },
+    navbar: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
+      popup: false,
       showPopup: false,
       links: [
         { url: '#!', text: 'Главная' },
@@ -569,6 +585,13 @@ export default {
     &:hover, &:focus {
       background: $shadow-dark2;
     }
+  }
+
+  &__form-title {
+    font-weight: bold;
+    font-size: 26px;
+    color: #fff;
+    padding: 0 30px 40px 0;
   }
 }
 </style>

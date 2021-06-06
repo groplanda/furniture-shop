@@ -18,7 +18,9 @@
 
 </template>
 <script>
+import axios from "axios";
 import VueGallery from 'vue-gallery';
+
 export default {
   name: "About",
   components: {
@@ -27,16 +29,26 @@ export default {
   data() {
     return {
       index: null,
-      images: [
-        "http://furniture-salon.oml.ru/thumb/2/-z53XkOv3vLRdiq3iAzzdw/r/d/315485008.jpg",
-        "http://furniture-salon.oml.ru/thumb/2/o0yxmFTn9kBHs0OykigHWQ/r/d/315485007.jpg",
-        "http://furniture-salon.oml.ru/thumb/2/PLQSg-gSTRcDSfYf7H058g/r/d/315485005.jpg",
-        "http://furniture-salon.oml.ru/thumb/2/BZeS49Dd2ZpIm7cqnWPRpQ/r/d/315485006.jpg",
-        "http://furniture-salon.oml.ru/thumb/2/6HRJHcichZyF23lfqWfixw/r/d/315485009.jpg",
-        "http://furniture-salon.oml.ru/thumb/2/-z53XkOv3vLRdiq3iAzzdw/r/d/315485008.jpg"
-      ]
+      images: []
     }
   },
+  methods: {
+    fetchHomeGallery() {
+      axios.get("/api/gallery/home/")
+      .then(response => {
+        if(response.data.images && response.data.images.length) {
+          const images = response.data.images.map(image => image.path);
+          this.images = images;
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
+  },
+  created() {
+    this.fetchHomeGallery();
+  }
 }
 </script>
 <style lang="scss">
