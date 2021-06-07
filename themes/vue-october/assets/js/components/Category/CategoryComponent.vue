@@ -5,6 +5,7 @@
     ._container.container.container--main
       ._heading
         ._title {{ category.title }}
+      CategoryFilter(@sortedProducts="sortedProducts")
       ._row(v-if="category.products && category.products.length > 0")
         ._item(v-for="product in paginatedData" :key="product.id")
           ProductSliderItem(:product="product"  @showPopup="showPopup")
@@ -12,6 +13,7 @@
       ._pagination(v-if="pageCount > 1")
         ._pagination-list
           button(
+            :class="{ 'category__pagination-item--active': index === pageNumber }"
             type="button"
             v-for="(page, index) in pageCount"
             @click="changePage(index)"
@@ -19,11 +21,14 @@
 
 </template>
 <script>
-import ProductSliderItem from '@vue/components/ProductSlider/ProductSliderItem.vue';
+import ProductSliderItem from '@vue/components/ProductSlider/ProductSliderItem';
+import CategoryFilter from '@vue/components/CategoryFilter/CategoryFilter';
+
 export default {
   name: "CategoryComponent",
   components: {
-    ProductSliderItem
+    ProductSliderItem,
+    CategoryFilter
   },
   props: {
     category: {
@@ -70,6 +75,9 @@ export default {
       setTimeout(() => {
         this.productPopup = false;
       }, 2000)
+    },
+    sortedProducts(key) {
+      this.$emit("sortedProducts", key);
     }
   }
 }
@@ -165,6 +173,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    @media(max-width: 767px) {
+      padding: 5px;
+    }
   }
 
   &__pagination-item {
@@ -178,6 +190,17 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    opacity: .7;
+
+    @media(max-width: 767px) {
+      width: 30px;
+      height: 30px;
+      font-size: 14px;
+    }
+
+    &--active {
+      opacity: 1;
+    }
   }
 }
 </style>
