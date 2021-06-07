@@ -37,10 +37,14 @@ Route::prefix('/api')->group(function () {
     return $menu->items;
   });
   Route::get('/category/{slug}', function ($slug) {
-    return Category::where('slug', $slug)->with(['products'])->first();
+    return Category::where('slug', $slug)->with(['products' => function($query) {
+      $query->orderBy('price', 'desc');
+    }])->first();
   });
   Route::get('/tag/{slug}', function ($slug) {
-    return Tag::where('slug', $slug)->with(['products'])->first();
+    return Tag::where('slug', $slug)->with(['products' => function($query) {
+      $query->orderBy('price', 'desc');
+    }])->first();
   });
   Route::get('/product/{id}', function ($id) {
     return Product::with(['categories', 'gallery', 'tags'])->where('id', $id)->first();
