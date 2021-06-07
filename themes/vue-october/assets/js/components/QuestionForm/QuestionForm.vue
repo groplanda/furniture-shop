@@ -1,7 +1,7 @@
 <template lang="pug">
   section.question-form
     ._image
-      img(src="http://furniture-salon.oml.ru/thumb/2/PrQnYK4UWJn1gKNb51__Hg/1920r/d/question_form.png", alt="alt")._image-thumb
+      img(src="/themes/vue-october/assets/images/question_form.png", alt="вопросы")._image-thumb
     ._container
       ._title Остались вопросы?
       button(type="button" @click="popup = true")._btn Напишите нам
