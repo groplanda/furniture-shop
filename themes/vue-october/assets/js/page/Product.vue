@@ -7,8 +7,8 @@
         ._body
           ._slider
             ._tags
-              ._tag.-new(v-if="product.is_new") New
-              ._tag.-sale(v-if="product.sale_price") Sale
+              ._tag.-new(v-if="+product.is_new") New
+              ._tag.-sale(v-if="+product.sale_price") Sale
             ._slider-current
               img(:src="currentImage ? currentImage : noImage", :alt="product.title")._slider-image
             ._slider-additional(v-if="product.gallery && product.gallery.length")

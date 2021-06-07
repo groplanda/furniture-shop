@@ -3,8 +3,8 @@
     input(type="hidden" v-model="product.id")
     ._top
       ._tags
-        ._tag.-new(v-if="product.is_new") New
-        ._tag.-sale(v-if="product.sale_price") Sale
+        ._tag.-new(v-if="+product.is_new") New
+        ._tag.-sale(v-if="+product.sale_price") Sale
       ._image
         router-link(:to="{ name: 'product', params: { id: product.id }}")._link
           img(:src="product.image ? '/storage/app/media' + product.image : noImage", :alt="product.title")._image-thumb
