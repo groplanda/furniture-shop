@@ -7,7 +7,7 @@
             ._slider-item
               ._slider-title {{ banner.title }}
               img(:src="'/storage/app/media' + banner.image", :alt="banner.title")._slider-img
-              a(:href="banner.link")._slider-link
+              router-link(:to="banner.link")._slider-link
         button._slider-control.-prev(@click="prevBanner")
           icon(name="control-prev" component="banner")._slider-ico
         button._slider-control.-next(@click="nextBanner")
@@ -16,7 +16,7 @@
 
       ._blocks
         ._blocks-items(v-for="(ad, index) in ads" :key="index")
-          a(:href="ad.link" v-if="ad.link")._blocks-link
+          router-link(:to="ad.link" v-if="ad.link")._blocks-link
           img(:src="'/storage/app/media' + ad.image", :alt="ad.title")._blocks-img
           ._blocks-title(v-if="ad.title") {{ ad.title }}
           ._blocks-price(v-if="ad.tag") {{ ad.tag }}
