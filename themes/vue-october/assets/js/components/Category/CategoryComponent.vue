@@ -5,42 +5,51 @@
     ._container.container.container--main
       ._heading
         ._title {{ category.title }}
-      CategoryFilter(@sortedProducts="sortedProducts")
-      ._row(v-if="category.products && category.products.length > 0")
-        ._item(v-for="product in paginatedData" :key="product.id")
-          ProductSliderItem(:product="product"  @showPopup="showPopup")
-      ._empty(v-else) Товаров пока нет!
-      ._pagination(v-if="pageCount > 1")
-        ._pagination-list
-          button(
-            :class="{ 'category__pagination-item--active': index === pageNumber }"
-            type="button"
-            v-for="(page, index) in pageCount"
-            @click="changePage(index)"
-            :key="index")._pagination-item {{ page }}
+
+      Loading(v-if="showLoading")
+      template(v-else)
+        CategoryFilter(@sortedProducts="sortedProducts")
+        ._row(v-if="category.products && category.products.length > 0")
+          ._item(v-for="product in paginatedData" :key="product.id")
+            ProductSliderItem(:product="product"  @showPopup="showPopup")
+        ._empty(v-else) Товаров пока нет!
+        ._pagination(v-if="pageCount > 1")
+          ._pagination-list
+            button(
+              :class="{ 'category__pagination-item--active': index === pageNumber }"
+              type="button"
+              v-for="(page, index) in pageCount"
+              @click="changePage(index)"
+              :key="index")._pagination-item {{ page }}
 
 </template>
 <script>
 import ProductSliderItem from '@vue/components/ProductSlider/ProductSliderItem';
 import CategoryFilter from '@vue/components/CategoryFilter/CategoryFilter';
+import Loading from '@vue/components/Preloader/Loading.vue';
 
 export default {
   name: "CategoryComponent",
   components: {
     ProductSliderItem,
-    CategoryFilter
+    CategoryFilter,
+    Loading
   },
   props: {
     category: {
       type: Object,
       required: true
+    },
+    showLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       productPopup: false,
       pageNumber: 0,
-      size: 24,
+      size: 24
     }
   },
   watch: {
@@ -97,11 +106,18 @@ export default {
 
   &__heading {
     padding-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     @media(max-width: 1199px) {
       padding-bottom: 40px;
     }
     @media(max-width: 767px) {
       padding-bottom: 30px;
+    }
+
+    &--space {
+      justify-content: space-between;
     }
   }
 
@@ -117,6 +133,19 @@ export default {
     }
     @media(max-width: 575px) {
       font-size: 25px;
+    }
+
+    @media(max-width: 350px) {
+      font-size: 20px;
+    }
+  }
+
+  &__search-val {
+    color: $grey;
+    margin-left: 15px;
+    font-weight: 400;
+    @media(max-width: 575px) {
+      margin-left: 10px;
     }
   }
 

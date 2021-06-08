@@ -88,7 +88,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.setNextThumb()
-    }, 300)
+    }, 400)
   }
 }
 </script>

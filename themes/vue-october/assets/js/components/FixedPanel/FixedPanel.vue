@@ -1,34 +1,50 @@
 <template lang="pug">
   .fixed-panel(:class="{ 'fixed-panel--active': showPanel }")
     ._nav
-      button._nav-item(@click="togglePanel")
+      button._nav-item(@click="togglePanel" data-panel="nav")
         icon(name="burg" component="header")._nav-ico
-        ._nav-radius
+
+      button._nav-item(@click="togglePanel" data-panel="search")
+        icon(name="search" component="fixed-panel")._nav-ico
 
       ._nav-item.-cart
         router-link(:to="{ name: 'cart' }" v-if="cart")._cart-link
         ._cart-amount(v-if="!showPanel") {{ cart }}
         icon(name="cart" component="header")._cart-ico
     ._menu
-      button._menu-close(@click="togglePanel")
+      button._menu-close(@click="togglePanel" :class="{ 'fixed-panel__menu-close--filter': isFilterOpen }" data-panel="close")
         icon(name="cross" component="fixed-panel")._nav-ico
+        ._nav-radius
+        ._nav-radius.-reverse
       ._menu-container
         ._menu-inner
           ._menu-scroll
             ._menu-panel
-              ._menu-title Каталог
-              ._menu-list
-                ._menu-item(v-for="category in categories" :key="category.id")
-                  router-link(:to="{ name: 'category', params: { slug: category.slug }}" @click="togglePanel")._menu-link {{ category.title }}
-                  icon(name="arrow" component="fixed-panel")._menu-ico
-              ._menu-title.-mobile Меню
-              ._menu-list.-mobile
-                ._menu-item
-                  router-link(:to="{name: 'home'}" @click="togglePanel")._menu-link Главная
-                   icon(name="arrow" component="fixed-panel")._menu-ico
-                ._menu-item(v-for="(nav, index) in navbar" :key="index")
-                  router-link(:to="nav.url" @click="togglePanel")._menu-link {{ nav.title }}
-                  icon(name="arrow" component="fixed-panel")._menu-ico
+              ._search(v-if="isFilterOpen")
+                ._menu-title Поиск
+                form(@submit.prevent="onSearch")._search-form
+                  input(type="text" autocomplete="off" v-model="search" placeholder="Поиск по каталогу...")._search-input
+                  button._search-btn(type="submit") Поиск
+              template(v-else)
+                ._search.-mobile
+                  ._menu-title Поиск
+                  form(@submit.prevent="onSearch")._search-form
+                    input(type="text" autocomplete="off" v-model="search" placeholder="Поиск по каталогу...")._search-input
+                    button._search-btn(type="submit") Поиск
+                      icon(name="search" component="fixed-panel")._search-ico
+                ._menu-title Каталог
+                ._menu-list
+                  ._menu-item(v-for="category in categories" :key="category.id")
+                    router-link(:to="{ name: 'category', params: { slug: category.slug }}" @click="togglePanel")._menu-link {{ category.title }}
+                    icon(name="arrow" component="fixed-panel")._menu-ico
+                ._menu-title.-mobile Меню
+                ._menu-list.-mobile
+                  ._menu-item
+                    router-link(:to="{name: 'home'}" @click="togglePanel")._menu-link Главная
+                    icon(name="arrow" component="fixed-panel")._menu-ico
+                  ._menu-item(v-for="(nav, index) in navbar" :key="index")
+                    router-link(:to="nav.url" @click="togglePanel")._menu-link {{ nav.title }}
+                    icon(name="arrow" component="fixed-panel")._menu-ico
 
 
 
@@ -42,6 +58,12 @@ export default {
       default() {
         return []
       }
+    }
+  },
+  data() {
+    return {
+      isFilterOpen: false,
+      search: ""
     }
   },
   watch: {
@@ -67,7 +89,20 @@ export default {
     }
   },
   methods: {
-    togglePanel() {
+    togglePanel(e) {
+
+      let type;
+
+      if(e && e.target) {
+        type = e.target.dataset.panel;
+      }
+
+      if (type && type === "search") {
+        this.isFilterOpen = true;
+      } else {
+        this.isFilterOpen = false;
+      }
+
       const status = this.showPanel;
       this.$store.dispatch("setFixedPanelStatus", !status);
       const offset = this.pageYOffset || document.documentElement.scrollTop;
@@ -81,6 +116,12 @@ export default {
         if (offset > 130) {
           setTimeout(() => this.$el.classList.add("fixed-panel--fixed"), 100);
         }
+      }
+    },
+    onSearch() {
+      if (this.search.length > 3) {
+        this.$router.push({ name: 'search', query: { val: this.search } })
+        this.search = "";
       }
     }
   },
@@ -131,8 +172,8 @@ export default {
         opacity: 1;
         pointer-events: all;
       }
-      &__nav-ico {
-        fill: #FFF;
+      &__nav-item {
+        pointer-events: none;
       }
       &__nav-radius {
         opacity: 1;
@@ -200,6 +241,16 @@ export default {
       height: 100%;
       border-radius: 19px 0 0 0;
     }
+
+    &--reverse {
+      transform: rotate(-90deg);
+      top: -19px;
+      display: none;
+    }
+
+    @media(max-width: 767px) {
+      display: none;
+    }
   }
 
   &__cart-link {
@@ -228,6 +279,7 @@ export default {
     fill: $primary;
     width: 26px;
     height: 26px;
+    pointer-events: none;
   }
 
   &__menu {
@@ -262,12 +314,27 @@ export default {
     align-items: center;
     justify-content: center;
 
+    #{$root} {
+      &__nav-ico {
+        fill: #FFF;
+      }
+    }
+
     @media(max-width: 767px) {
       top: 20px;
       right: 20px;
       width: 26px;
       height: 26px;
       z-index: 1;
+    }
+
+    &--filter {
+      top: 90px;
+      #{$root} {
+        &__nav-radius--reverse {
+          display: block;
+        }
+      }
     }
   }
 
@@ -397,6 +464,95 @@ export default {
       height: 10px;
       top: calc(50% - 5px);
       right: 15px;
+    }
+  }
+
+  &__search {
+    padding-bottom: 60px;
+
+    &--mobile {
+      display: none;
+
+      @media(max-width: 767px) {
+        display: block;
+        padding: 0 10px;
+      }
+    }
+  }
+
+  &__search-form {
+    display: flex;
+    flex-direction: column;
+    @media(max-width: 767px) {
+      flex-direction: row;
+    }
+  }
+
+  &__search-input {
+    font-size: 16px;
+    color: #fff;
+    border: 2px solid $shadow-dark2;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    width: 100%;
+    height: auto;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: all .18s linear;
+    margin-bottom: 20px;
+    text-align: center;
+
+    @media(max-width: 767px) {
+      max-width: 50%;
+      margin-bottom: 0;
+      border-width: 1px;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+
+    @media(max-width: 575px) {
+      max-width: calc(100% - 60px);
+    }
+  }
+
+  &__search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px 25px;
+    transition: background .3s,color .3s;
+    color: #fff;
+    background: $shadow-dark2;
+    border-radius: 10px;
+
+    @media(max-width: 767px) {
+      margin-left: 20px;
+      max-width: calc(50% - 20px);
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+
+    @media(max-width: 575px) {
+      margin-left: 10px;
+      max-width: 50px;
+      font-size: 0;
+      padding: 0;
+    }
+  }
+
+  &__search-ico {
+    display: none;
+    @media(max-width: 575px) {
+      display: flex;
+      width: 16px;
+      height: 16px;
+      fill: #FFF;
     }
   }
 }

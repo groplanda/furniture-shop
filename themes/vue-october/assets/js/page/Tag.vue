@@ -1,5 +1,5 @@
 <template lang="pug">
-  <CategoryComponent :category="category" @sortedProducts="sortedProducts" />
+  <CategoryComponent :category="category" @sortedProducts="sortedProducts" :showLoading="showLoading" />
 </template>
 <script>
 import axios from "axios";
@@ -14,6 +14,7 @@ export default {
     return {
       category: {},
       slug: "",
+      showLoading: true
     }
   },
   watch: {
@@ -26,7 +27,8 @@ export default {
     fetchTags(slug) {
       axios.get("/api/tag/" + slug)
       .then(response => {
-        this.category = response.data
+        this.category = response.data;
+        this.showLoading = false;
       })
       .catch(e => {
         console.log(e);
