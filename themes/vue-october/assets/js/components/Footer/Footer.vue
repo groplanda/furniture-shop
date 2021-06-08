@@ -1,5 +1,9 @@
 <template lang="pug">
   footer.footer.section
+    ._up(:class="{ 'footer__up--show': showUp }" @click="onUp")
+      span._up-text Вверх
+      icon(name="up" component="footer")._up-ico
+
     ._container.container.container--main
       ._row
         ._content
@@ -69,12 +73,30 @@ export default {
   methods: {
     preparePhone(phone) {
       return formattedPhone(phone);
+    },
+    onUp() {
+      document.body.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
     }
   },
   data() {
     return {
+      showUp: false,
       phones: []
     }
+  },
+  mounted() {
+    window.addEventListener("scroll", () => {
+      const offset = this.pageYOffset || document.documentElement.scrollTop;
+
+      if (offset > 500) {
+        this.showUp = true
+      } else {
+        this.showUp = false
+      }
+    })
   }
 }
 </script>
@@ -84,9 +106,90 @@ export default {
   position: relative;
   padding-bottom: 50px;
 
+  $root: &;
+
   @media(max-width: 1199px) {
     padding: 10px 0;
     background: #F8F8F8;
+  }
+
+  &__up {
+    height: 90px;
+    font-weight: 500;
+    font-size: 20px;
+    color: $dark;
+    display: flex;
+    align-items: center;
+    transform: rotate(-90deg);
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 0px;
+    position: fixed;
+    bottom: 50px;
+    left: 13px;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+
+    @media(max-width: 1199px) {
+      left: 0;
+    }
+
+    @media(max-width: 767px) {
+      transform: rotate(0);
+      width: 40px;
+      height: 40px;
+      background: $dark;
+      justify-content: center;
+      left: 10px;
+      bottom: 30px;
+      border-radius: 20px;
+    }
+
+    &--show {
+      opacity: 1;
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    @media(min-width: 768px) {
+      &:hover {
+        #{$root} {
+          &__up-ico {
+            right: -5px;
+          }
+        }
+      }
+    }
+  }
+
+  &__up-text {
+    display: block;
+    padding-right: 30px;
+    @media(max-width: 767px) {
+      display: none;
+    }
+  }
+
+  &__up-ico {
+    fill: $dark;
+    width: 16px;
+    height: 24px;
+    display: block;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 36px;
+    right: 0;
+    transition: right 0.3s;
+
+    @media(max-width: 767px) {
+      position: inherit;
+      top: auto;
+      right: auto;
+      fill: #FFF;
+      transform: none;
+    }
   }
 
   &__row {
@@ -107,10 +210,6 @@ export default {
       background: #FFF;
       border-radius: 20px;
       padding: 30px 20px;
-    }
-
-    @media(max-width: 767px) {
-
     }
   }
 
