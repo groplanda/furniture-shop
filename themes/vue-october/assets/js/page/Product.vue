@@ -10,7 +10,7 @@
               ._tag.-new(v-if="+product.is_new") New
               ._tag.-sale(v-if="+product.sale_price") Sale
             ._slider-current
-              img(:src="currentImage ? currentImage : noImage", :alt="product.title")._slider-image
+              InnerImageZoom(:src="currentImage ? currentImage : noImage" :zoomSrc="currentImage ? currentImage : noImage")._slider-image
             ._slider-additional(v-if="product.gallery && product.gallery.length")
               ._slider-thumb(
                   :class="{'product__slider-thumb--active': currentImage === '/storage/app/media' + product.image}"
@@ -126,9 +126,13 @@
 <script>
 const Sticky = require('sticky-js');
 import setTitle from '@vue/helpers/setTitle.js';
+import InnerImageZoom from 'vue-inner-image-zoom';
 
 export default {
   name: "Product",
+  components: {
+    InnerImageZoom
+  },
   data() {
     return {
       currentImage: "",
@@ -307,12 +311,6 @@ export default {
     overflow: hidden;
     border-radius: 8px;
     margin-bottom: 10px;
-
-    &::after {
-      content: "";
-      display: block;
-      padding-top: 100%;
-    }
   }
 
   &__slider-image {
