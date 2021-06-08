@@ -11,6 +11,7 @@
           input(type="text" v-model="searchInput" @input="onSearch" placeholder="Поиск по каталогу...")._input
           button(type="button" @click="onSearch")._btn
             icon(name="search" component="fixed-panel")._btn-ico
+      ._total(v-if="+total > 0") Найдено: {{ total }} позиций
 
 
       Loading(v-if="showLoading")
@@ -49,6 +50,11 @@ export default {
     return {
       productPopup: false,
       searchInput: "",
+    }
+  },
+  computed: {
+    total() {
+      return this.products.length;
     }
   },
   methods: {

@@ -37,10 +37,12 @@ export default {
       })
     },
     inputSearch(val) {
-      this.showLoading = true;
-      this.searchProducts(val);
-      this.$router.push({ name: 'search', query: { val: val } })
-      this.search = val;
+      if (val !== this.search) {
+        this.showLoading = true;
+        this.searchProducts(val);
+        this.$router.push({ name: 'search', query: { val: val } })
+        this.search = val;
+      }
     }
   },
   created() {

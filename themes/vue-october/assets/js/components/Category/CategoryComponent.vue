@@ -121,6 +121,24 @@ export default {
     }
   }
 
+  &__total {
+    margin-top: -40px;
+    color: #41445C;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    @media(max-width: 1199px) {
+      margin-top: -30px;
+    }
+    @media(max-width: 991px) {
+      margin-top: -20px;
+    }
+    @media(max-width: 575px) {
+      font-size: 13px;
+      margin-top: -15px;
+    }
+  }
+
   &__title {
     color: #41445C;
     font-size: 50px;
