@@ -7,7 +7,8 @@
             img(:src="cat.image ? '/storage/app/media' + cat.image : noImage", :alt="cat.title")._item-thumb
           ._item-title {{ cat.title }}
           ._item-count(v-if="+cat.products_count !== 0") {{ cat.products_count }}
-          router-link(:to="{ name: 'category', params: { slug: cat.slug }}")._item-link
+          ._item-link(v-if="+cat.is_quiz" data-js="quiz")
+          router-link(v-else :to="{ name: 'category', params: { slug: cat.slug }}")._item-link
 
 </template>
 <script>
@@ -23,6 +24,40 @@ export default {
       const cats = this.$store.getters.getCategories
       return cats.slice(0, 6);
     }
+  },
+  updated() {
+    const quizLinks = this.$el.querySelectorAll('[data-js="quiz"]');
+
+    (function(w, d, s, o){
+      var j = d.createElement(s); j.async = true; j.src = '//script.marquiz.ru/v2.js';j.onload = function() {
+        // eslint-disable-next-line no-undef
+        if (document.readyState !== 'loading') Marquiz.init(o);
+        else document.addEventListener("DOMContentLoaded", function() {
+          // eslint-disable-next-line no-undef
+          Marquiz.init(o);
+        });
+      };
+      d.head.insertBefore(j, d.head.firstElementChild);
+    })(window, document, 'script', {
+        host: '//quiz.marquiz.ru',
+        region: 'eu',
+        id: '60408b5fd967520046fe1811',
+        autoOpen: false,
+        autoOpenFreq: 'once',
+        openOnExit: false,
+        disableOnMobile: false
+      }
+    );
+
+    if(quizLinks && quizLinks.length) {
+      for(let i = 0; i < quizLinks.length; i++) {
+        quizLinks[i].addEventListener("click", () => {
+          // eslint-disable-next-line no-undef
+          Marquiz.showModal('60408b5fd967520046fe1811');
+        })
+      }
+    }
+
   }
 }
 </script>
@@ -201,6 +236,7 @@ export default {
     display: block;
     text-decoration: none;
     z-index: 1;
+    cursor: pointer;
   }
 }
 </style>

@@ -82,7 +82,8 @@ export default {
       return 0;
     },
     categories() {
-      return this.$store.getters.getCategories;
+      const cats = this.$store.getters.getCategories;
+      return cats.filter(cat => +cat.is_quiz !== 1);
     },
     showPanel() {
       return this.$store.getters.getPanelStatus;

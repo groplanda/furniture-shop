@@ -26,3 +26,7 @@ fields:
         label: 'Включить?'
         span: auto
         type: switch
+    is_quiz:
+        label: 'Открывать квиз?'
+        span: auto
+        type: switch
