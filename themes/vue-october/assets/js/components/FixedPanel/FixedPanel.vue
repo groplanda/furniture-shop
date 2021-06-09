@@ -119,7 +119,7 @@ export default {
       }
     },
     onSearch() {
-      if (this.search.length > 3) {
+      if (this.search.length > 2) {
         this.$router.push({ name: 'search', query: { val: this.search } })
         this.search = "";
       }

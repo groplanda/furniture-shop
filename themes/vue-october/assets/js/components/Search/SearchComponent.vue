@@ -65,7 +65,7 @@ export default {
       }, 2000)
     },
     onSearch() {
-      if (this.searchInput.length > 3) {
+      if (this.searchInput.length > 2) {
         this.$emit("inputSearch", this.searchInput);
       }
     }
