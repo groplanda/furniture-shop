@@ -61,6 +61,6 @@ Route::prefix('/api')->group(function () {
   });
   Route::get('/post/{name}', 'Acme\Shop\Classes\Posts@getPost');
   Route::get('/search/{query}', function ($query) {
-    return Product::select('id','title','image','price','sale_price','is_new','is_hit','code')->where('title','LIKE',"%{$query}%")->orderBy('price', 'desc')->get();
+    return Product::select('id','title','image','price','sale_price','is_new','is_hit','code')->where('title','LIKE',"%{$query}%")->orWhere('code','LIKE',"%{$query}%")->orderBy('price', 'desc')->get();
   });
 });
