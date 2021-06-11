@@ -51,7 +51,7 @@ Route::prefix('/api')->group(function () {
     }
 
     return Category::where('slug', $slug)->with(['products' => function($query) use ($page, $order, $dir) {
-      $query->orderBy($order, $dir)->skip($page)->take(24)->get();
+      $query->orderBy($order, $dir)->skip($page)->take(20)->get();
     }])->withCount('products')->first();
   });
   Route::get('/tag/{slug}', function ($slug, Request $request) {
@@ -69,7 +69,7 @@ Route::prefix('/api')->group(function () {
     }
 
     return Tag::where('slug', $slug)->with(['products' => function($query) use ($page, $order, $dir) {
-      $query->orderBy($order, $dir)->skip($page)->take(24)->get();
+      $query->orderBy($order, $dir)->skip($page)->take(20)->get();
     }])->withCount('products')->first();
   });
   Route::get('/product/{id}', function ($id) {
