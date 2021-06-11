@@ -1,5 +1,5 @@
 <template lang="pug">
-  <CategoryComponent :category="category" @sortedProducts="sortedProducts" :showLoading="showLoading" />
+  <CategoryComponent :category="category" @sortedProducts="sortedProducts" :showLoading="showLoading" @changePage="changePage" />
 </template>
 <script>
 import axios from "axios";
@@ -15,41 +15,70 @@ export default {
     return {
       category: {},
       slug: "",
-      showLoading: true
+      showLoading: true,
+      dir: "desc",
+      order: "price"
     }
   },
   watch: {
     $route (to){
       this.slug = to.params.slug;
-      this.fetchCategory(this.slug);
+      this.fetchCategory(this.slug, 0);
     }
   },
   methods: {
-    fetchCategory(slug) {
-      axios.get("/api/category/" + slug)
+    fetchCategory(slug, page) {
+      const params = {
+        page: page,
+        dir: this.dir,
+        order: this.order,
+      };
+      axios.get("/api/category/" + slug, { params: params })
       .then(response => {
-        this.category = response.data;
-        this.showLoading = false;
+        if(response.data) {
+          this.category = response.data;
+          this.showLoading = false;
+        } else {
+          this.$router.push({ name: 'notfound' })
+        }
       })
       .catch(e => {
         console.log(e);
       })
     },
-    sortedProducts(key) {
-      let result = [];
-      if (key === "prive_low") result = this.category.products.sort((a, b) => b.price - a.price);
-      if (key === "prive_up") result = this.category.products.sort((a, b) => a.price - b.price);
-      if (key === "fist_new") result = this.category.products.sort((a, b) => b.sort_order - a.sort_order);
-      if (key === "fist_old") result = this.category.products.sort((a, b) => a.sort_order - b.sort_order);
-      if (key === "a-z") result = this.category.products.sort((a, b) => a.title.localeCompare(b.title));
-      if (key === "z-a") result = this.category.products.sort((a, b) => b.title.localeCompare(a.title));
-
-      this.category.products = result;
+    changePage(offset) {
+      this.fetchCategory(this.slug, offset);
+    },
+    sortedProducts(key, page) {
+      switch (key) {
+        case "prive_low":
+          this.dir = "desc";
+          this.order = "price";
+          this.fetchCategory(this.slug, page)
+          break;
+        case "prive_up":
+          this.dir = "asc";
+          this.order = "price";
+          this.fetchCategory(this.slug, page)
+          break;
+        case "fist_new":
+          this.dir = "desc";
+          this.order = "sort_order";
+          this.fetchCategory(this.slug, page)
+          break;
+        case "fist_old":
+          this.dir = "asc";
+          this.order = "sort_order";
+          this.fetchCategory(this.slug, page)
+          break;
+        default:
+          break;
+      }
     }
   },
   created() {
     this.slug = this.$route.params.slug;
-    this.fetchCategory(this.slug);
+    this.fetchCategory(this.slug, 0);
   },
   updated() {
     setTitle(this.category);

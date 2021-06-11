@@ -1,7 +1,6 @@
 <template lang="pug">
   section.category.section
-    transition(name="fade")
-      .product-slider__success(v-if="productPopup") Товар добавлен в корзину!
+    ProductPopup(v-if="productPopup")
     ._container.container.container--main
       ._heading
         ._title {{ category.title }}
@@ -10,7 +9,7 @@
       template(v-else)
         CategoryFilter(@sortedProducts="sortedProducts")
         ._row(v-if="category.products && category.products.length > 0")
-          ._item(v-for="product in paginatedData" :key="product.id")
+          ._item(v-for="product in category.products" :key="product.id")
             ProductSliderItem(:product="product"  @showPopup="showPopup")
         ._empty(v-else) Товаров пока нет!
         ._pagination(v-if="pageCount > 1")
@@ -60,20 +59,16 @@ export default {
   computed: {
     pageCount() {
       let result = 0;
-      if(this.category.products && this.category.products.length) {
-        result = Math.ceil(this.category.products.length / this.size);
+      if(this.category.products && this.category.products_count) {
+        result = Math.ceil(this.category.products_count / this.size);
       }
       return result;
-    },
-    paginatedData(){
-      const start = this.pageNumber * this.size,
-            end = start + this.size;
-      return this.category.products.slice(start, end);
     }
   },
   methods: {
     changePage(page) {
       this.pageNumber = page;
+      this.$emit("changePage", page * this.size);
       this.$el.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
@@ -86,7 +81,7 @@ export default {
       }, 2000)
     },
     sortedProducts(key) {
-      this.$emit("sortedProducts", key);
+      this.$emit("sortedProducts", key, this.pageNumber * this.size);
     }
   }
 }

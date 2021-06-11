@@ -1,9 +1,6 @@
 <template lang="pug">
   section.product-slider
-
-    transition(name="fade")
-      ._success(v-if="productPopup") Товар добавлен в корзину!
-
+    ProductPopup(v-if="productPopup")
     ._heading
       ._title {{ title }}
       ._controls
@@ -84,12 +81,6 @@ export default {
 </script>
 <style lang="scss">
 @import '@/scss/vars.scss';
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
 .product-slider {
   padding-bottom: 100px;
 
@@ -102,39 +93,6 @@ export default {
   }
 
   $root: &;
-
-  &__success {
-    width: 100%;
-    max-width: 480px;
-    padding: 28px 40px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 32px;
-    color: #fff;
-    background: $dark;
-    box-shadow: 0px 4px 40px rgb(0, 0, 0, 0.1);
-    border-radius: 20px;
-
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 30;
-    transform: translate(-50%, -50%);
-
-    @media(max-width: 767px) {
-      font-size: 18px;
-      line-height: 30px;
-      padding: 20px 30px;
-    }
-
-    @media(max-width: 500px) {
-      max-width: calc(100% - 40px);
-      font-size: 16px;
-      line-height: 24px;
-      padding: 20px;
-    }
-  }
 
   &__heading {
     display: flex;

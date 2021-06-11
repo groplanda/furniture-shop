@@ -20,18 +20,10 @@
         ._menu-inner
           ._menu-scroll
             ._menu-panel
-              ._search(v-if="isFilterOpen")
-                ._menu-title Поиск
-                form(@submit.prevent="onSearch")._search-form
-                  input(type="text" autocomplete="off" v-model="search" placeholder="Поиск по каталогу...")._search-input
-                  button._search-btn(type="submit") Поиск
+              SearchForm(v-if="isFilterOpen")
               template(v-else)
                 ._search.-mobile
-                  ._menu-title Поиск
-                  form(@submit.prevent="onSearch")._search-form
-                    input(type="text" autocomplete="off" v-model="search" placeholder="Поиск по каталогу...")._search-input
-                    button._search-btn(type="submit") Поиск
-                      icon(name="search" component="fixed-panel")._search-ico
+                  SearchForm(:isMobile="true")
                 ._menu-title Каталог
                 ._menu-list
                   ._menu-item(v-for="category in categories" :key="category.id")
@@ -50,8 +42,13 @@
 
 </template>
 <script>
+import SearchForm from './SearchForm.vue';
+
 export default {
   name: "FixedPanel",
+  components: {
+    SearchForm
+  },
   props: {
     navbar: {
       type: Array,
@@ -62,8 +59,7 @@ export default {
   },
   data() {
     return {
-      isFilterOpen: false,
-      search: ""
+      isFilterOpen: false
     }
   },
   watch: {
@@ -117,12 +113,6 @@ export default {
         if (offset > 130) {
           setTimeout(() => this.$el.classList.add("fixed-panel--fixed"), 100);
         }
-      }
-    },
-    onSearch() {
-      if (this.search.length > 2) {
-        this.$router.push({ name: 'search', query: { val: this.search } })
-        this.search = "";
       }
     }
   },
@@ -281,6 +271,15 @@ export default {
     width: 26px;
     height: 26px;
     pointer-events: none;
+  }
+
+  &__search {
+    &--mobile {
+      display: none;
+      @media(max-width: 767px) {
+        display: block;
+      }
+    }
   }
 
   &__menu {
@@ -465,95 +464,6 @@ export default {
       height: 10px;
       top: calc(50% - 5px);
       right: 15px;
-    }
-  }
-
-  &__search {
-    padding-bottom: 60px;
-
-    &--mobile {
-      display: none;
-
-      @media(max-width: 767px) {
-        display: block;
-        padding: 0 10px;
-      }
-    }
-  }
-
-  &__search-form {
-    display: flex;
-    flex-direction: column;
-    @media(max-width: 767px) {
-      flex-direction: row;
-    }
-  }
-
-  &__search-input {
-    font-size: 16px;
-    color: #fff;
-    border: 2px solid $shadow-dark2;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 10px;
-    padding: 12px 28px;
-    width: 100%;
-    height: auto;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-    transition: all .18s linear;
-    margin-bottom: 20px;
-    text-align: center;
-
-    @media(max-width: 767px) {
-      max-width: 50%;
-      margin-bottom: 0;
-      border-width: 1px;
-      padding: 10px 20px;
-      font-size: 14px;
-    }
-
-    @media(max-width: 575px) {
-      max-width: calc(100% - 60px);
-    }
-  }
-
-  &__search-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 15px 25px;
-    transition: background .3s,color .3s;
-    color: #fff;
-    background: $shadow-dark2;
-    border-radius: 10px;
-
-    @media(max-width: 767px) {
-      margin-left: 20px;
-      max-width: calc(50% - 20px);
-      padding: 10px 20px;
-      font-size: 14px;
-    }
-
-    @media(max-width: 575px) {
-      margin-left: 10px;
-      max-width: 50px;
-      font-size: 0;
-      padding: 0;
-    }
-  }
-
-  &__search-ico {
-    display: none;
-    @media(max-width: 575px) {
-      display: flex;
-      width: 16px;
-      height: 16px;
-      fill: #FFF;
     }
   }
 }

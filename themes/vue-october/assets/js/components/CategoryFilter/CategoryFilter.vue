@@ -21,9 +21,7 @@ export default {
         { title: 'Убывание цены', key: 'prive_low' },
         { title: 'Возрастание цены', key: 'prive_up' },
         { title: 'Вначале новые', key: 'fist_new' },
-        { title: 'Вначале старые', key: 'fist_old' },
-        { title: 'название от А', key: 'a-z' },
-        { title: 'название от Я', key: 'z-a' }
+        { title: 'Вначале старые', key: 'fist_old' }
       ]
     }
   },

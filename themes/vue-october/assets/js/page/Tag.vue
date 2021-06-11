@@ -1,9 +1,10 @@
 <template lang="pug">
-  <CategoryComponent :category="category" @sortedProducts="sortedProducts" :showLoading="showLoading" />
+  <CategoryComponent :category="category" @sortedProducts="sortedProducts" :showLoading="showLoading" @changePage="changePage" />
 </template>
 <script>
 import axios from "axios";
 import CategoryComponent from '@vue/components/Category/CategoryComponent';
+import setTitle from '@vue/helpers/setTitle.js';
 
 export default {
   name: "Category",
@@ -14,41 +15,73 @@ export default {
     return {
       category: {},
       slug: "",
-      showLoading: true
+      showLoading: true,
+      dir: "desc",
+      order: "price"
     }
   },
   watch: {
     $route (to){
       this.slug = to.params.slug;
-      this.fetchTags(this.slug);
+      this.fetchTags(this.slug, 0);
     }
   },
   methods: {
-    fetchTags(slug) {
-      axios.get("/api/tag/" + slug)
+    fetchTags(slug, page) {
+      const params = {
+        page: page,
+        dir: this.dir,
+        order: this.order,
+      };
+      axios.get("/api/tag/" + slug, { params: params })
       .then(response => {
-        this.category = response.data;
-        this.showLoading = false;
+        if(response.data) {
+          this.category = response.data;
+          this.showLoading = false;
+        } else {
+          this.$router.push({ name: 'notfound' })
+        }
       })
       .catch(e => {
         console.log(e);
       })
     },
-    sortedProducts(key) {
-      let result = [];
-      if (key === "prive_low") result = this.category.products.sort((a, b) => b.price - a.price);
-      if (key === "prive_up") result = this.category.products.sort((a, b) => a.price - b.price);
-      if (key === "fist_new") result = this.category.products.sort((a, b) => b.sort_order - a.sort_order);
-      if (key === "fist_old") result = this.category.products.sort((a, b) => a.sort_order - b.sort_order);
-      if (key === "a-z") result = this.category.products.sort((a, b) => a.title.localeCompare(b.title));
-      if (key === "z-a") result = this.category.products.sort((a, b) => b.title.localeCompare(a.title));
-
-      this.category.products = result;
+    changePage(offset) {
+      this.fetchTags(this.slug, offset);
+    },
+    sortedProducts(key, page) {
+      switch (key) {
+        case "prive_low":
+          this.dir = "desc";
+          this.order = "price";
+          this.fetchTags(this.slug, page)
+          break;
+        case "prive_up":
+          this.dir = "asc";
+          this.order = "price";
+          this.fetchTags(this.slug, page)
+          break;
+        case "fist_new":
+          this.dir = "desc";
+          this.order = "sort_order";
+          this.fetchTags(this.slug, page)
+          break;
+        case "fist_old":
+          this.dir = "asc";
+          this.order = "sort_order";
+          this.fetchTags(this.slug, page)
+          break;
+        default:
+          break;
+      }
     }
   },
   created() {
     this.slug = this.$route.params.slug;
-    this.fetchTags(this.slug);
+    this.fetchTags(this.slug, 0);
+  },
+  updated() {
+    setTitle(this.category);
   }
 }
 </script>

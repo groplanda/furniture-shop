@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/js/router/routes";
 const product = {
   state: () => ({
     newProducts: [],
@@ -60,7 +61,11 @@ const product = {
     fetchProductById({ commit }, payload) {
       axios.get("/api/product/" + payload)
       .then(response => {
-        commit("SET_PRODUCT", response.data)
+        if(response.data) {
+          commit("SET_PRODUCT", response.data)
+        } else {
+          router.push({ name: 'notfound' })
+        }
       })
       .catch(e => {
         console.log(e);

@@ -1,7 +1,7 @@
 <template lang="pug">
   section.product.section
     transition(name="fade")
-      .product-slider__success(v-if="productPopup") Товар добавлен в корзину!
+      ProductPopup(v-if="productPopup")
     ._container.container.container--main
       ._row(data-sticky-container)
         ._body
@@ -127,11 +127,13 @@
 const Sticky = require('sticky-js');
 import setTitle from '@vue/helpers/setTitle.js';
 import InnerImageZoom from 'vue-inner-image-zoom';
+import ProductPopup from '@vue/components/Product/ProductPopup';
 
 export default {
   name: "Product",
   components: {
-    InnerImageZoom
+    InnerImageZoom,
+    ProductPopup
   },
   data() {
     return {

@@ -8,6 +8,7 @@ use Cms\Classes\Theme;
 use Acme\Settings\Models\Slider;
 use Acme\Settings\Models\Testimonial;
 use Acme\Settings\Models\Gallery;
+use Illuminate\Http\Request;
 
 Route::prefix('/api')->group(function () {
   Route::get('/new-products', function () {
@@ -36,15 +37,40 @@ Route::prefix('/api')->group(function () {
     $menu = PagesMenu::loadCached($theme, 'main');
     return $menu->items;
   });
-  Route::get('/category/{slug}', function ($slug) {
-    return Category::where('slug', $slug)->with(['products' => function($query) {
-      $query->orderBy('price', 'desc');
-    }])->first();
+  Route::get('/category/{slug}', function ($slug, Request $request) {
+    $page = $request->get('page');
+    $order = 'price';
+    $dir = 'desc';
+
+    if($request->get('order')) {
+      $order = $request->get('order');
+    }
+
+    if($request->get('dir')) {
+      $dir = $request->get('dir');
+    }
+
+    return Category::where('slug', $slug)->with(['products' => function($query) use ($page, $order, $dir) {
+      $query->orderBy($order, $dir)->skip($page)->take(24)->get();
+    }])->withCount('products')->first();
   });
-  Route::get('/tag/{slug}', function ($slug) {
-    return Tag::where('slug', $slug)->with(['products' => function($query) {
-      $query->orderBy('price', 'desc');
-    }])->first();
+  Route::get('/tag/{slug}', function ($slug, Request $request) {
+
+    $page = $request->get('page');
+    $order = 'price';
+    $dir = 'desc';
+
+    if($request->get('order')) {
+      $order = $request->get('order');
+    }
+
+    if($request->get('dir')) {
+      $dir = $request->get('dir');
+    }
+
+    return Tag::where('slug', $slug)->with(['products' => function($query) use ($page, $order, $dir) {
+      $query->orderBy($order, $dir)->skip($page)->take(24)->get();
+    }])->withCount('products')->first();
   });
   Route::get('/product/{id}', function ($id) {
     return Product::with(['categories', 'gallery', 'tags'])->where('id', $id)->first();

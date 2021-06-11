@@ -43,6 +43,12 @@ export default {
     padding: 40px 0 60px;
   }
 
+  &__container {
+    &--center {
+      text-align: center;
+    }
+  }
+
   &__heading {
     padding-bottom: 50px;
     @media(max-width: 767px) {
