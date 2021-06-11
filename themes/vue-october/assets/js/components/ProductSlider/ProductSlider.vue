@@ -18,13 +18,15 @@
 <script>
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
 import ProductSliderItem from './ProductSliderItem.vue';
+import ProductPopup from '@vue/components/Product/ProductPopup';
 
 export default {
   name: "ProductSlider",
   components: {
     Swiper,
     SwiperSlide,
-    ProductSliderItem
+    ProductSliderItem,
+    ProductPopup
   },
   props: {
     title: {

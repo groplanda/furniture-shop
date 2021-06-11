@@ -26,13 +26,15 @@
 import ProductSliderItem from '@vue/components/ProductSlider/ProductSliderItem';
 import CategoryFilter from '@vue/components/CategoryFilter/CategoryFilter';
 import Loading from '@vue/components/Preloader/Loading.vue';
+import ProductPopup from '@vue/components/Product/ProductPopup';
 
 export default {
   name: "CategoryComponent",
   components: {
     ProductSliderItem,
     CategoryFilter,
-    Loading
+    Loading,
+    ProductPopup
   },
   props: {
     category: {

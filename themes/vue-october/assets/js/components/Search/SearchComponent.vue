@@ -21,13 +21,15 @@
 import ProductSliderItem from '@vue/components/ProductSlider/ProductSliderItem';
 import Loading from '@vue/components/Preloader/Loading';
 import SearchFilter from './SearchFilter';
+import ProductPopup from '@vue/components/Product/ProductPopup';
 
 export default {
   name: "SearchComponent",
   components: {
     ProductSliderItem,
     Loading,
-    SearchFilter
+    SearchFilter,
+    ProductPopup
   },
   props: {
     products: {
