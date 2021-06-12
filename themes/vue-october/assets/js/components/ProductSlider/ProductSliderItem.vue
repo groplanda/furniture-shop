@@ -8,7 +8,7 @@
       ._image
         router-link(:to="{ name: 'product', params: { id: product.id }}")._link
           img(:src="product.image ? '/storage/app/media' + product.image : noImage", :alt="product.title")._image-thumb
-      ._order
+      ._order(v-if="product.price > 0")
         button(type="submit")._order-btn
           icon(name="cart" component="header")._order-ico
 
@@ -17,21 +17,9 @@
       router-link(:to="{ name: 'category', params: { slug: product.categories[0].slug }}" v-if="product.categories")._category  {{ product.categories[0].title}}
       ._code Артикул: {{ product.code }}
 
-      ._cart
+      ._cart(v-if="product.price > 0")
         ._amount
-          button(
-            type="button"
-            @click="changeAmount"
-            data-js-action="minus"
-            :disabled="amount === 1"
-            :class="{ 'product-item__amount-btn--disabled': amount === 1 }")._amount-btn
-            icon(name="minus" component="product")._amount-ico
-          input(type="number" v-model="amount" readonly)._amount-val
-          button(
-            @click="changeAmount"
-            data-js-action="plus"
-            type="button")._amount-btn
-            icon(name="plus" component="product")._amount-ico
+        ProductAmount(@changeAmount="changeAmount" :amount="amount")
         ._price
           ._current-price
             strong._price-val {{ productPrice }}
@@ -39,14 +27,21 @@
           ._old-price(v-if="+product.sale_price !== 0")
             strong._price-val {{ (product.price).toLocaleString('ru') }}
             span._price-label руб.
+      ._cart(v-else)
+        ._price
+          ._current-price
+            strong._price-val Цена не указана
 
 
 
 </template>
 <script>
-
+import ProductAmount from './ProductAmount'
 export default {
   name: "ProductSliderItem",
+  components: {
+    ProductAmount
+  },
   props: {
     product: {
       type: Object,
@@ -68,12 +63,8 @@ export default {
     }
   },
   methods: {
-    changeAmount(e) {
-      if (e.target.dataset.jsAction === "plus" && this.amount < 100) {
-        this.amount = this.amount + 1;
-      } else if (e.target.dataset.jsAction === "minus" && this.amount > 1) {
-        this.amount = this.amount - 1;
-      }
+    changeAmount(val) {
+      this.amount = val;
     },
     addToCart() {
       if( this.amount > 0 && this.product?.id) {
@@ -266,56 +257,6 @@ export default {
 
   &__cart {
     margin-top: 20px;
-  }
-
-  &__amount {
-    display: inline-flex;
-    align-items: center;
-    background: #FFF;
-  }
-
-  &__amount-btn {
-    width: 36px;
-    height: 36px;
-    outline: none;
-    align-items: center;
-    display: inline-flex;
-    justify-content: center;
-    -webkit-appearance: none;
-    transition: all 0.18s linear;
-    border-radius: 8px;
-    background: #FFF;
-
-    &--disabled {
-      cursor: not-allowed;
-      #{$root} {
-        &__amount-ico {
-          fill: #999999;
-        }
-      }
-    }
-  }
-
-  &__amount-ico {
-    fill: $dark;
-    width: 12px;
-    height: 12px;
-    pointer-events: none;
-  }
-
-  &__amount-val {
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    width: 50px;
-    height: 36px;
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    }
   }
 
   &__price {

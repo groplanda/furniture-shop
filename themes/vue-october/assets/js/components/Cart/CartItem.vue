@@ -3,7 +3,7 @@
   ._product
     ._product-img
       router-link(:to="{ name: 'product', params: { id: product.id }}")._product-link
-      img(:src="'/storage/app/media/' + product.image", :alt="product.title")._product-thumb
+      img(:src="product.image ? '/storage/app/media' + product.image : noImage", :alt="product.title")._product-thumb
     ._product-group
       router-link(:to="{ name: 'product', params: { id: product.id }}")._product-title {{ product.title }}
   ._right
@@ -13,20 +13,7 @@
         ._price-currency руб.
 
     ._col
-      .product-item__amount
-        button(
-          type="button"
-          @click="updateAmount"
-          data-js-action="minus"
-          :disabled="count === 1"
-          :class="{ 'product-item__amount-btn--disabled': count === 1 }").product-item__amount-btn
-          icon(name="minus" component="product").product-item__amount-ico
-        input(type="number" v-model="count" readonly).product-item__amount-val
-        button(
-          @click="updateAmount"
-          data-js-action="plus"
-          type="button").product-item__amount-btn
-          icon(name="plus" component="product").product-item__amount-ico
+      ProductAmount(@changeAmount="updateAmount" :amount="count")
     ._col
       ._price
         ._price-val {{ totalPrice }}
@@ -36,8 +23,13 @@
 
 </template>
 <script>
+import ProductAmount from '@vue/components/ProductSlider/ProductAmount.vue'
+
 export default {
   name: "CartItem",
+  components: {
+    ProductAmount
+  },
   props: {
     product: {
       type: Object,
@@ -46,7 +38,8 @@ export default {
   },
   data() {
     return {
-      count: this.product.amount
+      count: this.product.amount,
+      noImage: "/themes/vue-october/assets/images/no-image.jpg"
     }
   },
   computed: {
@@ -67,12 +60,8 @@ export default {
     }
   },
   methods: {
-    updateAmount(e) {
-      if (e.target.dataset.jsAction === "plus" && this.product.amount < 100) {
-        this.count = this.count + 1;
-      } else if (e.target.dataset.jsAction === "minus" && this.product.amount > 1) {
-        this.count = this.count - 1;
-      }
+    updateAmount(val) {
+      this.count = val;
       this.updateCart();
       this.$emit("updateProduct", { id: this.product.id, amount: this.count });
     },

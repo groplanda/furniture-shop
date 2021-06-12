@@ -43,27 +43,8 @@
           ._bottom
             ._order
               ._order-row
-                ._price(v-if="product.price")
-                  ._current-price
-                    strong._price-val {{ productPrice }}
-                    span._price-label руб.
-                  ._old-price(v-if="+product.sale_price !== 0")
-                    strong._price-val {{ (product.price).toLocaleString('ru') }}
-                    span._price-label руб.
-                .product-item__amount
-                  button(
-                    type="button"
-                    @click="changeAmount"
-                    data-js-action="minus"
-                    :disabled="amount === 1"
-                    :class="{ 'product-item__amount-btn--disabled': amount === 1 }").product-item__amount-btn
-                    icon(name="minus" component="product").product-item__amount-ico
-                  input(type="number" v-model="amount" readonly).product-item__amount-val
-                  button(
-                    @click="changeAmount"
-                    data-js-action="plus"
-                    type="button").product-item__amount-btn
-                    icon(name="plus" component="product").product-item__amount-ico
+                ProductPrive(v-if="product.price" :price="+product.price" :salePrice="+product.sale_price")
+                ProductAmount(@changeAmount="changeAmount" @amount="amount")
               button(type="button" @click="addToCart")._add
                 | В корзину
                 icon(name="cart" component="header")._add-ico
@@ -97,27 +78,8 @@
           ._form-tag
             | В наличие
             icon(name="check" component="product")._form-tag-ico
-          ._price(v-if="product.price")
-            ._current-price
-              strong._price-val {{ productPrice }}
-              span._price-label руб.
-            ._old-price(v-if="+product.sale_price !== 0")
-              strong._price-val {{ (product.price).toLocaleString('ru') }}
-              span._price-label руб.
-          .product-item__amount
-            button(
-              type="button"
-              @click="changeAmount"
-              data-js-action="minus"
-              :disabled="amount === 1"
-              :class="{ 'product-item__amount-btn--disabled': amount === 1 }").product-item__amount-btn
-              icon(name="minus" component="product").product-item__amount-ico
-            input(type="number" v-model="amount" readonly).product-item__amount-val
-            button(
-              @click="changeAmount"
-              data-js-action="plus"
-              type="button").product-item__amount-btn
-              icon(name="plus" component="product").product-item__amount-ico
+          ProductPrive(v-if="product.price" :price="+product.price" :salePrice="+product.sale_price")
+          ProductAmount(@changeAmount="changeAmount" :amount="amount")
           button(type="button" @click="addToCart")._add
             | В корзину
             icon(name="cart" component="header")._add-ico
@@ -128,12 +90,16 @@ const Sticky = require('sticky-js');
 import setTitle from '@vue/helpers/setTitle.js';
 import InnerImageZoom from 'vue-inner-image-zoom';
 import ProductPopup from '@vue/components/Product/ProductPopup';
+import ProductAmount from '@vue/components/ProductSlider/ProductAmount.vue';
+import ProductPrive from '@vue/components/Product/ProductPrive.vue';
 
 export default {
   name: "Product",
   components: {
     InnerImageZoom,
-    ProductPopup
+    ProductPopup,
+    ProductAmount,
+    ProductPrive
   },
   data() {
     return {
@@ -157,13 +123,7 @@ export default {
   computed: {
     product() {
       return this.$store.getters.getProduct;
-    },
-    productPrice() {
-      if (this.product && +this.product.sale_price !== 0) {
-        return (this.product.sale_price).toLocaleString('ru')
-      }
-      return (this.product.price).toLocaleString('ru')
-    },
+    }
   },
   methods: {
     fetchProduct(id) {
@@ -172,12 +132,8 @@ export default {
     changeImage(imgSrc) {
       this.currentImage = imgSrc;
     },
-    changeAmount(e) {
-      if (e.target.dataset.jsAction === "plus" && this.amount < 100) {
-        this.amount = this.amount + 1;
-      } else if (e.target.dataset.jsAction === "minus" && this.amount > 1) {
-        this.amount = this.amount - 1;
-      }
+    changeAmount(val) {
+      this.amount = val;
     },
     addToCart() {
       if( this.amount > 0 && this.product?.id) {
@@ -656,76 +612,6 @@ export default {
     position: absolute;
     left: 14px;
     top: calc(50% - 6px);
-  }
-
-  &__price {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 20px 0;
-
-    @media(max-width: 991px) {
-      margin: 0;
-      height: 36px;
-    }
-
-    @media(max-width: 410px) {
-      height: auto;
-    }
-  }
-
-  &__current-price {
-    font-size: 24px;
-    color: $primary;
-    margin-right: 20px;
-
-    #{$root} {
-      &__price-label {
-        font-size: 20px;
-      }
-    }
-
-    @media(max-width: 1199px) {
-      font-size: 22px;
-    }
-
-    @media(max-width: 575px) {
-      font-size: 18px;
-      margin-right: 15px;
-    }
-  }
-
-  &__price-val {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-
-  &__old-price {
-    font-size: 20px;
-    color: $primary;
-    opacity: .2;
-    text-decoration: line-through;
-    #{$root} {
-      &__price-val {
-        font-weight: 500;
-      }
-      &__price-label {
-        font-size: 18px;
-
-        @media(max-width: 575px) {
-          font-size: 14px;
-        }
-      }
-    }
-
-    @media(max-width: 1199px) {
-      font-size: 18px;
-    }
-
-    @media(max-width: 575px) {
-      font-size: 16px;
-    }
   }
 
   &__add {
