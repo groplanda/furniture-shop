@@ -49,7 +49,7 @@
 </template>
 <script>
 import { formattedPhone } from '@vue/helpers/formatted.js';
-import ContactForm from '@vue/components/ContactForm/ContactForm.vue';
+import ContactForm from '@vue/components/ContactForm/ContactForm';
 
 export default {
   name: "Footer",
