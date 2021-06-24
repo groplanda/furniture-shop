@@ -30,3 +30,7 @@ fields:
         label: 'Открывать квиз?'
         span: auto
         type: switch
+    parent:
+        label: 'Родительская категория'
+        span: auto
+        type: parentbox

@@ -26,9 +26,27 @@
                   SearchForm(:isMobile="true")
                 ._menu-title Каталог
                 ._menu-list
-                  ._menu-item(v-for="category in categories" :key="category.id")
-                    router-link(:to="{ name: 'category', params: { slug: category.slug }}" @click="togglePanel")._menu-link {{ category.title }}
-                    icon(name="arrow" component="fixed-panel")._menu-ico
+                  ._menu-item(
+                    v-for="category in categories"
+                    :key="category.id"
+                    :class="{ 'fixed-panel__menu-item--has-child': category.childs && category.childs.length > 0 }"
+                    )
+                    button(type="button" v-if="category.childs && category.childs.length" @click="toggleDropdown")._menu-link {{ category.title }}
+                      icon(name="arrow" component="fixed-panel")._menu-ico
+
+                    router-link(
+                      v-else
+                      :to="{ name: 'category', params: { slug: category.slug }}"
+                      @click="togglePanel")._menu-link {{ category.title }}
+                      icon(name="arrow" component="fixed-panel")._menu-ico
+
+                    ._menu-dropdown(v-if="category.childs && category.childs.length" data-menu="dropdown")
+                      router-link(
+                        :to="{ name: 'category', params: { slug: subcat.slug }}"
+                        @click="togglePanel"
+                        v-for="subcat in category.childs"
+                        :key="subcat.id")._menu-link {{ subcat.title }}
+
                 ._menu-title.-mobile Меню
                 ._menu-list.-mobile
                   ._menu-item
@@ -42,7 +60,7 @@
 
 </template>
 <script>
-import SearchForm from './SearchForm.vue';
+import SearchForm from './SearchForm';
 
 export default {
   name: "FixedPanel",
@@ -113,6 +131,35 @@ export default {
         if (offset > 130) {
           setTimeout(() => this.$el.classList.add("fixed-panel--fixed"), 100);
         }
+      }
+
+      this.hideDropdown();
+    },
+    toggleDropdown(e) {
+      const target = e.target,
+            activeClassName = "fixed-panel__menu-item--has-open";
+
+      if (target) {
+        const parentItem = target.parentElement,
+              dropdown = parentItem.querySelector('[data-menu="dropdown"]');
+
+        parentItem.classList.toggle(activeClassName);
+
+        if (parentItem.classList.contains(activeClassName)) {
+          dropdown.style.height = dropdown.scrollHeight + 'px';
+        } else {
+          dropdown.style.height = 0;
+        }
+      }
+    },
+    hideDropdown() {
+      const activeItems = document.querySelectorAll(".fixed-panel__menu-item--has-open");
+
+      if (activeItems) {
+        activeItems.forEach(item => {
+          item.classList.remove("fixed-panel__menu-item--has-open");
+          item.querySelector('[data-menu="dropdown"]').style.height = 0;
+        })
       }
     }
   },
@@ -425,12 +472,21 @@ export default {
     position: relative;
     margin: 0 10px 10px 10px;
 
+    &--has-open {
+      #{$root} {
+        &__menu-ico {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
     &:last-child {
       margin-bottom: 40px;
     }
   }
 
   &__menu-link {
+    width: 100%;
     font-weight: 500;
     font-size: 16px;
     color: #fff;
@@ -441,6 +497,7 @@ export default {
     padding: 13px 35px 12px 20px;
     transition: background 0.3s;
     position: relative;
+    text-align: left;
 
     @media(max-width: 767px) {
       font-style: 14px;
@@ -459,11 +516,33 @@ export default {
     fill: #FFF;
     width: 14px;
     height: 14px;
+    transition: transform .3s ease;
     @media(max-width: 767px) {
       width: 10px;
       height: 10px;
       top: calc(50% - 5px);
       right: 15px;
+    }
+  }
+
+  &__menu-dropdown {
+    height: 0;
+    overflow: hidden;
+    padding-left: 30px;
+    transition: height .3s ease;
+    @media(max-width: 767px) {
+      padding-left: 20px;
+    }
+    #{$root} {
+      &__menu-link {
+        margin-top: 10px;
+        font-size: 15px;
+        padding: 10px 25px 10px 20px;
+        @media(max-width: 767px) {
+          font-size: 13px;
+          padding: 8px 20px 8px 15px;
+        }
+      }
     }
   }
 }
