@@ -500,12 +500,12 @@ export default {
     text-align: left;
 
     @media(max-width: 767px) {
-      font-style: 14px;
+      font-size: 14px;
       padding: 10px 20px 10px 15px;
     }
 
     &:hover, &:focus {
-      background: rgba(255, 255, 255, 0.2);
+      background: $shadow-dark2;
     }
   }
 

@@ -17,8 +17,10 @@ export default {
   data() {
     return {
       blocks: [
-        { img: "/themes/vue-october/assets/images/b_1.png", title: "Мебель для дома!", url: "mebel-dlya-spalen", label: "до - 20%" },
-        { img: "/themes/vue-october/assets/images/b_2.png", title: "Все для офиса!", url: "mebel-dlya-ofisa", label: false }
+        { img: "/themes/vue-october/assets/images/b_1.png", title: "Столы и стулья!", url: "mebel-dlya-spalen", label: "до - 20%" },
+        { img: "/themes/vue-october/assets/images/b_2.png", title: "Мебель для офиса!", url: "mebel-dlya-ofisa", label: false },
+        { img: "/themes/vue-october/assets/images/b_3.png", title: "Кровати!", url: "mebel-dlya-spalen", label: false },
+        { img: "/themes/vue-october/assets/images/b_4.png", title: "Шкафы!", url: "mebel-dlya-ofisa", label: "до - 10%" }
       ]
     }
   }
@@ -51,7 +53,7 @@ export default {
   &__item {
     width: 100%;
     max-width: calc(50% - 40px);
-    margin: 0 20px;
+    margin: 0 20px 40px 20px;
     border-radius: 20px;
     overflow: hidden;
     padding: 40px 40px;
