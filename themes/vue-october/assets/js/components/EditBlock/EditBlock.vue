@@ -19,8 +19,8 @@ export default {
       blocks: [
         { img: "/themes/vue-october/assets/images/b_1.png", title: "Столы и стулья!", url: "mebel-dlya-spalen", label: "до - 20%" },
         { img: "/themes/vue-october/assets/images/b_2.png", title: "Мебель для офиса!", url: "mebel-dlya-ofisa", label: false },
-        { img: "/themes/vue-october/assets/images/b_3.png", title: "Кровати!", url: "mebel-dlya-spalen", label: false },
-        { img: "/themes/vue-october/assets/images/b_4.png", title: "Шкафы!", url: "mebel-dlya-ofisa", label: "до - 10%" }
+        { img: "/themes/vue-october/assets/images/b_4.png", title: "Кровати!", url: "mebel-dlya-spalen", label: false },
+        { img: "/themes/vue-october/assets/images/b_3.png", title: "Шкафы!", url: "mebel-dlya-ofisa", label: "до - 10%" }
       ]
     }
   }
