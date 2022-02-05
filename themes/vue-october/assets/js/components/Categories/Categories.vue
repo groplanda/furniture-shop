@@ -22,7 +22,7 @@ export default {
   computed: {
     categories() {
       const cats = this.$store.getters.getCategories
-      return cats.slice(0, 6);
+      return cats.slice(0, 8);
     }
   },
   updated() {
@@ -63,18 +63,12 @@ export default {
 </script>
 <style lang="scss">
 .categories {
-  max-width: calc(100% - 485px);
   width: 100%;
   margin: 0 20px;
 
   @media(max-width: 1740px) {
-    max-width: calc(100% - 420px);
     margin: 0 10px;
   }
-
-   @media(max-width: 1440px) {
-     max-width: 100%;
-   }
 
   $root: &;
 
@@ -94,7 +88,7 @@ export default {
 
   &__item {
     width: 100%;
-    max-width: calc(33.333% - 40px);
+    max-width: calc(25% - 40px);
     margin: 0 20px 40px 20px;
     position: relative;
     background: #f6f6f6;
@@ -120,11 +114,11 @@ export default {
       padding-top: 75%;
     }
 
-    &:nth-child(4),
-    &:nth-child(5),
-    &:last-child {
-      margin-bottom: 0;
-    }
+    // &:nth-child(4),
+    // &:nth-child(5),
+    // &:last-child {
+    //   margin-bottom: 0;
+    // }
 
     @media(max-width: 991px) {
       &:nth-child(4) {

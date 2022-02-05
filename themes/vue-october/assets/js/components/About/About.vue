@@ -4,15 +4,15 @@
       ._content-title О компании
       ._content-body(v-html="about.aboutText")
       router-link(:to="about.aboutLink" v-if="about.aboutLink")._content-link Читать дальше
-    ._gallery
-      ._gallery-inner
+    .gallery.-home
+      ._inner
         VueGallery(:images="images" :index="index" @close="index = null")
-        ._gallery-list
-          ._gallery-item(
+        ._list
+          ._item(
             v-for="(image, imageIndex) in images"
             :key="imageIndex"
             @click="index = imageIndex")
-              img(:src="image")._gallery-thumb
+              img(:src="image")._thumb
 
 </template>
 <script>
@@ -150,128 +150,6 @@ export default {
       font-size: 14px;
       padding: 10px 20px;
     }
-  }
-
-  &__gallery {
-    border-radius: 20px;
-    width: 100%;
-    max-width: calc(50% - 40px);
-    margin-left: 40px;
-    background: linear-gradient(-45deg, #ff9b4a, #c837ab), linear-gradient(45deg, #df437e, #c837ab);
-
-    @media(max-width: 1740px) {
-      align-self: flex-start;
-    }
-
-    @media(max-width: 991px) {
-      max-width: 100%;
-      margin: 30px 0 0 0;
-    }
-  }
-
-  &__gallery-inner {
-    background: #FFF;
-    margin: 2px;
-    border-radius: 18px;
-    padding: 48px 58px 58px;
-    height: calc(100% - 4px);
-    width: calc(100% - 4px);
-    display: flex;
-    flex-direction: column;
-
-    @media(max-width: 1740px) {
-      padding: 25px;
-    }
-
-    @media(max-width: 767px) {
-      padding: 20px;
-    }
-
-    @media(max-width: 575px) {
-      padding: 10px;
-    }
-  }
-
-  &__gallery-list {
-    display: flex;
-    flex-wrap: wrap;
-    margin: auto -10px;
-    align-self: center;
-    align-content: center;
-    width: 100%;
-  }
-
-  &__gallery-item {
-    width: 100%;
-    max-width: calc(33.333% - 20px);
-    margin: 0 10px 20px 10px;
-    position: relative;
-    cursor: pointer;
-    border-radius: 7px;
-    overflow: hidden;
-
-    @media(min-width: 1441px) {
-      &:nth-last-child(-n+3) {
-        margin-bottom: 0;
-      }
-    }
-
-    @media(max-width: 1440px) {
-      max-width: calc(50% - 20px);
-      &:nth-last-child(-n+2) {
-        margin-bottom: 0;
-      }
-    }
-
-    @media(max-width: 991px) {
-      max-width: calc(33.333% - 20px);
-      &:nth-last-child(-n+3) {
-        margin-bottom: 0;
-      }
-    }
-
-    @media(max-width: 575px) {
-      max-width: calc(50% - 20px);
-      &:nth-last-child(-n+2) {
-        margin-bottom: 0;
-      }
-    }
-
-    &::after {
-      content: "";
-      display: block;
-      padding-top: 100%;
-    }
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: $shadow-primary;
-      opacity: 0;
-      transition: opacity .3s ease;
-      z-index: 1;
-    }
-
-    &:hover {
-      &::before {
-        opacity: 1;
-      }
-    }
-  }
-
-  &__gallery-thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: none;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
   }
 }
 </style>

@@ -9,7 +9,7 @@ import axios from 'axios';
 Vue.use(Vuex)
 
 class Settings {
-  constructor(siteName, phone, email, address, whatsapp, ok, vk, instagram, logo, banners, aboutText, aboutLink) {
+  constructor(siteName, phone, email, address, whatsapp, ok, vk, instagram, logo, banners, aboutText, aboutLink, add) {
     this.siteName = siteName;
     this.phone = phone;
     this.email = email;
@@ -21,7 +21,8 @@ class Settings {
     this.siteLogo = logo;
     this.banners = banners;
     this.aboutText = aboutText;
-    this.aboutLink = aboutLink
+    this.aboutLink = aboutLink;
+    this.adds = add;
   }
 }
 
@@ -70,7 +71,8 @@ export default new Vuex.Store({
         const data = response.data.data;
         const phone = JSON.parse(data.phone);
         const banners = JSON.parse(data.banners);
-        const settings = new Settings(data.site_name, phone, data.t_email,  data.address, data.whatsapp, data.ok, data.vk, data.instagram, data.site_logo, banners, data.about_text, data.about_link)
+        const adds = JSON.parse(data.add);
+        const settings = new Settings(data.site_name, phone, data.t_email,  data.address, data.whatsapp, data.ok, data.vk, data.instagram, data.site_logo, banners, data.about_text, data.about_link, adds)
         commit("SET_SETTINGS", settings);
       })
       .catch(err => {

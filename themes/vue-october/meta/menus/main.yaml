@@ -1,18 +1,35 @@
 items:
     -
         title: 'О компании'
+        nesting: null
         type: url
         url: /post/about
         code: post
+        reference: null
+        cmsPage: null
+        replace: null
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
     -
         title: Контакты
+        nesting: null
         type: url
         url: /post/contacts
         code: post
+        reference: null
+        cmsPage: null
+        replace: null
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: 'Наши работы'
+        type: url
+        url: /our-works
+        code: ''
         viewBag:
             isHidden: '0'
             cssClass: ''

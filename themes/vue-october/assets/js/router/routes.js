@@ -10,6 +10,7 @@ import Product from '@vue/page/Product'
 import Tag from '@vue/page/Tag'
 import SearchPage from '@vue/page/SearchPage'
 import Notfound from '@vue/page/Notfound'
+import Gallery from '@vue/page/Gallery'
 
 Vue.use(Router);
 let router = new Router({
@@ -54,6 +55,11 @@ let router = new Router({
           path: '/search',
           name: 'search',
           component: SearchPage
+        },
+        {
+          path: '/our-works',
+          name: 'our-works',
+          component: Gallery
         },
         {
           path: '/404',

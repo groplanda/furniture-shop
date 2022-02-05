@@ -1,18 +1,15 @@
 <template lang="pug">
   .folders
     ._row
-      Tags
       Categories
 
 </template>
 <script>
-import Tags from '@vue/components/Tags/Tags';
 import Categories from '@vue/components/Categories/Categories';
 
 export default {
   name: "Folders",
   components: {
-    Tags,
     Categories
   }
 }
